@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electronic Gadgets Store</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="./js/scripts.js" defer></script>
+</head>
+<body class="bg-gray-100 font-sans pt-20"> <!-- Added padding-top to compensate for fixed navbar -->
+<header class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black/50 backdrop-md text-white px-6 py-3 rounded-2xl shadow-md w-[95%] max-w-6xl z-50">
+    <div class="flex justify-between items-center">
+      <h1 class="text-xl md:text-2xl font-bold">macelect Store</h1>
+      <nav class="hidden md:flex space-x-4">
+        <!-- Categories Dropdown Button -->
+        <div class="relative">
+          <button class="px-4 py-2 bg-black text-white rounded-lg" id="categoriesButton">Categories</button>
+          <!-- Categories Dropdown Menu -->
+          <ul class="absolute left-0 w-48 bg-white shadow-md rounded-lg mt-2 hidden transition-all opacity-0 scale-95">
+            <li><a href="#" class="block px-4 py-2 text-black hover:bg-gray-100">📱 Mobiles</a></li>
+            <li><a href="#" class="block px-4 py-2 text-black hover:bg-gray-100">💻 Laptops</a></li>
+            <li><a href="#" class="block px-4 py-2 text-black hover:bg-gray-100">🖥️ Accessories</a></li>
+            <li><a href="#" class="block px-4 py-2 text-black hover:bg-gray-100">📺 TVs</a></li>
+            <li><a href="#" class="block px-4 py-2 text-black hover:bg-gray-100">🎧 Audio</a></li>
+          </ul>
+        </div>
+        <!-- Navigation Links -->
+<a href="#" class="bg-white-500 hover:bg-[#09128d] text-white px-4 py-2 rounded-lg transition">Home</a>
+<a href="./pages/products.html" class="bg-white-500 hover:bg-[#09128d] text-white px-4 py-2 rounded-lg transition">Products</a>
+<a href="./pages/aboutus.html" class="bg-white-500 hover:bg-[#09128d] text-white px-4 py-2 rounded-lg transition">About Us</a>
+<a href="./pages/fqa.html" class="bg-white-500 hover:bg-[#09128d] text-white px-4 py-2 rounded-lg transition">FQA</a>
+<!-- Cart Icon -->
+<a href="#" class="bg-black hover:bg-neutral-800 text-white p-2 rounded-lg transition flex items-center justify-center">
+  <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+</a>
+<!-- Profile Icon -->
+<a href="#" class="bg-black hover:bg-neutral-800 text-white p-2 rounded-lg transition flex items-center justify-center">
+  <i data-lucide="user" class="w-5 h-5"></i>
+</a>
+</nav>
+      <!-- Mobile menu toggle -->
+      <div class="md:hidden">
+        <button id="mobileMenuButton">
+            <i data-lucide="menu" class="h-6 w-6 text-white"></i>
+          </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mt-2 space-y-2 md:hidden hidden">
+      <a href="#" class="block bg-white-500 hover:bg-[#09128d] text-white px-4 py-2 rounded-lg transition">Home</a>
+      <a href="./pages/products.html" class="block bg-white-500 hover:bg-[#09128d] text-white px-4 py-2 rounded-lg transition">Products</a>
+      <a href="./pages/aboutus.html" class="block bg-white-500 hover:bg-[#09128d] text-white px-4 py-2 rounded-lg transition">About Us</a>
+      <a href="./pages/fqa.html" class="block bg-white-500 hover:bg-[#09128d] text-white px-4 py-2 rounded-lg transition">FQA</a>
+      <a href="#" class="block bg-black hover:bg-neutral-800 text-white px-4 py-2 rounded-lg transition flex items-center gap-2">
+        <i data-lucide="shopping-cart" class="w-5 h-5"></i> Cart
+      </a>
+      <a href="#" class="block bg-black hover:bg-neutral-800 text-white px-4 py-2 rounded-lg transition flex items-center gap-2">
+        <i data-lucide="user" class="w-5 h-5"></i> Profile
+      </a>
+    </div>
+  </header>
+
+<!-- Mobile Filter Button -->
+<div class="lg:hidden flex justify-between items-center p-4 sticky top-0 z-40 bg-white shadow-sm">
+    <h2 class="text-xl font-bold">All Products</h2>
+    <button onclick="toggleDrawer()" class="px-4 py-2 bg-black text-white rounded-lg">☰ Filter</button>
+  </div>
+  
+  <!-- Mobile Drawer -->
+  <div id="mobileDrawer" class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg p-4 transform -translate-x-full transition-transform duration-300 z-50">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-bold">Categories</h2>
+      <button onclick="toggleDrawer()">✕</button>
+    </div>
+    <ul class="space-y-3">
+      <li><a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-100">📱 Mobiles</a></li>
+      <li><a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-100">💻 Laptops</a></li>
+      <li><a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-100">🖥️ Accessories</a></li>
+      <li><a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-100">📺 TVs</a></li>
+      <li><a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-100">🎧 Audio</a></li>
+    </ul>
+  </div>
+
+  <!-- Carousel (Featured Products) -->
+  <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="./images/pexels-garrettmorrow-682933.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-overlay"></div>
+      </div>
+      <div class="carousel-item">
+        <img src="./images/pexels-jessbaileydesign-788946.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-overlay"></div>
+      </div>
+      <div class="carousel-item">
+        <img src="./images/pexels-junior-teixeira-1064069-2047905.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-overlay"></div>
+      </div>
+    </div>
+    <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev"> -->
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <!-- <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next"> -->
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+    <!-- Fixed Text that does not move -->
+    <div class="carousel-caption fixed-text">
+        <h2 class="text-white">Welcome to Our Store!</h2>
+        <p class="text-white">Shop the latest gadgets at unbeatable prices.</p>
+        <a href="#" class="btn btn-primary">Shop Now</a>
+      </div>
+    </div>
+
+    <section class="py-10 bg-gray-100">
+  <div class="container mx-auto text-center">
+    <!-- Subtitle -->
+    <h3 class="text-lg font-semibold text-gray-600">Explore Our Premium Items</h3>
+    <!-- Title -->
+    <h1 class="text-5xl font-bold text-black mt-2">Discover Innovative Electronics Today</h1>
+    <!-- Description -->
+    <p class="text-gray-500 p-2 max-w-2xl mx-auto">
+      Browse our diverse selection of cutting-edge electronics, featuring top-tier smartphones, high-performance laptops, 
+      and smart home appliances that elevate your daily life experiences.
+    </p>
+    <!-- Product Grid -->
+    <div class="container mt-5">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+        <!-- Product Card 1 -->
+        <div class="col">
+          <div class="card h-100 shadow-lg rounded-lg p-3">
+            <div class="badge bg-purple-200 text-purple-700 px-2 py-1 rounded-pill mb-2">Best Seller</div>
+            <img src="./images/anna-keibalo-3vdOy66U8KI-unsplash.jpg" class="card-img-top rounded" alt="Wireless Bluetooth Headset" style="height: 300px; object-fit: cover;">
+            <div class="card-body text-center">
+              <h5 class="card-title font-bold">Wireless Bluetooth Headset</h5>
+              <p class="text-gray-500">Shipped in 3-4 days</p>
+              <p class="text-black font-bold">$35.99</p>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary flex-grow-1 me-2">
+                  <i data-lucide="shopping-cart" class="lucide"></i>
+                </button>
+                <button class="btn bg-[#09128d] flex-grow-1">
+                  <i data-lucide="credit-card" class="lucide"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="col">
+          <div class="card h-100 shadow-lg rounded-lg p-3">
+            <div class="badge bg-purple-200 text-purple-700 px-2 py-1 rounded-pill mb-2">Best Seller</div>
+            <img src="./images/daniel-korpai-8GDCzWrcE3M-unsplash.jpg" class="card-img-top rounded" alt="Wireless Bluetooth Headset" style="height: 300px; object-fit: cover;">
+            <div class="card-body text-center">
+              <h5 class="card-title font-bold">Wireless Bluetooth Headset</h5>
+              <p class="text-gray-500">Shipped in 3-4 days</p>
+              <p class="text-black font-bold">$35.99</p>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary flex-grow-1 me-2">
+                  <i data-lucide="shopping-cart" class="lucide"></i>
+                </button>
+                <button class="btn bg-[#09128d] flex-grow-1">
+                  <i data-lucide="credit-card" class="lucide"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 3 -->
+        <div class="col">
+          <div class="card h-100 shadow-lg rounded-lg p-3">
+            <div class="badge bg-purple-200 text-purple-700 px-2 py-1 rounded-pill mb-2">Best Seller</div>
+            <img src="./images/ramal-wickramasinghe-OjMyiwfviQ4-unsplash.jpg" class="card-img-top rounded" alt="Wireless Bluetooth Headset" style="height: 300px; object-fit: cover;">
+            <div class="card-body text-center">
+              <h5 class="card-title font-bold">Wireless Bluetooth Headset</h5>
+              <p class="text-gray-500">Shipped in 3-4 days</p>
+              <p class="text-black font-bold">$35.99</p>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary flex-grow-1 me-2">
+                  <i data-lucide="shopping-cart" class="lucide"></i>
+                </button>
+                <button class="btn bg-[#09128d] flex-grow-1">
+                  <i data-lucide="credit-card" class="lucide"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 4 -->
+        <div class="col">
+          <div class="card h-100 shadow-lg rounded-lg p-3">
+            <div class="badge bg-purple-200 text-purple-700 px-2 py-1 rounded-pill mb-2">Best Seller</div>
+            <img src="./images/maxim-hopman-Hin-rzhOdWs-unsplash.jpg" class="card-img-top rounded" alt="Wireless Bluetooth Headset" style="height: 300px; object-fit: cover;">
+            <div class="card-body text-center">
+              <h5 class="card-title font-bold">Wireless Bluetooth Headset</h5>
+              <p class="text-gray-500">Shipped in 3-4 days</p>
+              <p class="text-black font-bold">$35.99</p>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary flex-grow-1 me-2">
+                  <i data-lucide="shopping-cart" class="lucide"></i>
+                </button>
+                <button class="btn bg-[#09128d] flex-grow-1">
+                  <i data-lucide="credit-card" class="lucide"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    
+<section class="py-6">
+    <div class="container mx-auto text-center">
+      <h2 class="text-dark-200 text-2xl md:text-4xl font-bold mb-6">
+        Brands We Work With
+      </h2>
+  
+      <div class="marquee-wrapper flex items-center justify-center overflow-hidden">
+        <div class="marquee-track gap-20 flex items-center justify-center">
+          <!-- Duplicate Content Twice for Loop -->
+          <div class="flex gap-20 flex items-center justify-center">
+            <img src="./images/pngwing.com (10).png" alt="Unreal" class="h-12 object-contain" />
+            <img src="./images/pngwing.com (11).png" alt="Oculus" class="h-12 object-contain" />
+            <img src="./images/pngwing.com (12).png" alt="Lumion" class="h-12 object-contain" />
+            <img src="./images/pngwing.com (13).png" alt="Meta" class="h-12 object-contain" />
+            <img src="./images/pngwing.com (14).png" alt="Autodesk" class="h-12 object-contain" />
+          </div>
+          <div class="flex gap-20 items-center">
+            <img src="./images/pngwing.com (15).png" alt="Unreal" class="h-12 object-contain" />
+            <img src="./images/pngwing.com (16).png" alt="Oculus" class="h-12 object-contain" />
+            <img src="./images/pngwing.com (17).png" alt="Lumion" class="h-12 object-contain" />
+            <img src="./images/pngwing.com (18).png" alt="Meta" class="h-12 object-contain" />
+            <img src="./images/pngwing.com (19).png" alt="Autodesk" class="h-12 object-contain" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-5 bg-light">
+    <div class="container px-4 py-5">
+      <h2 class="display-4 text-4xl fw-bold text-center mb-5">Why Shop With Us</h2>
+  
+      <div class="row row-cols-1 row-cols-lg-2 align-items-center g-5">
+        <!-- Left Content -->
+        <div class="col">
+          <h3 class="fw-bold display-6 mb-4">Experience tech shopping like never before</h3>
+          <p class="lead text-muted mb-4">
+            We don’t just sell gadgets – we deliver trust, speed, and support.
+            Explore premium devices, lightning-fast delivery, and a service that puts you first.
+          </p>
+          <a href="#" class="btn bg-[#09128d] text-white px-5 py-3 shadow">Start Shopping</a>
+        </div>
+  
+        <!-- Right Feature Cards -->
+        <div class="col">
+          <div class="row g-4">
+            <!-- Feature 1 -->
+            <div class="col-12 d-flex align-items-start gap-4">
+              <img src="./images/na_january_20.jpg" width="64" alt="Delivery Icon">
+              <div>
+                <h5 class="fw-bold fs-4">Super-Fast Delivery</h5>
+                <p class="text-muted">We get your order to your doorstep in record time – usually within 2-3 days nationwide.</p>
+              </div>
+            </div>
+  
+            <!-- Feature 2 -->
+            <div class="col-12 d-flex align-items-start gap-4">
+              <img src="./images/erone-stuff-5uzMFiMmQiU-unsplash.jpg" width="64" alt="Secure Payment Icon">
+              <div>
+                <h5 class="fw-bold fs-4">Secure Payments</h5>
+                <p class="text-muted">All transactions are protected with industry-standard encryption and verified payment gateways.</p>
+              </div>
+            </div>
+  
+            <!-- Feature 3 -->
+            <div class="col-12 d-flex align-items-start gap-4">
+              <img src="./images/5124556.jpg" width="64" alt="Support Icon">
+              <div>
+                <h5 class="fw-bold fs-4">24/7 Customer Support</h5>
+                <p class="text-muted">Need help? Our support team is always on standby – chat, email, or call us anytime.</p>
+              </div>
+            </div>
+  
+            <!-- Feature 4 -->
+            <div class="col-12 d-flex align-items-start gap-4">
+              <img src="./images/9901787.jpg" width="64" alt="Tech Quality Icon">
+              <div>
+                <h5 class="fw-bold fs-4">Cost savings</h5>
+                <p class="text-muted">We only stock premium products from trusted brands, fully verified and tested before delivery, that are cost friendly.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+
+  <div class="container py-5">
+    <h2 class="text-center mb-5 display-4 fw-bold">Top Categories</h2>
+    <div class="row g-4 row-cols-1 row-cols-md-3">
+      
+      <!-- Mobile Phones -->
+      <div class="col">
+        <div class="card text-white bg-dark border-0 rounded-4 overflow-hidden h-100">
+          <img src="./images/v-a-tao-9TqCQNs0kTg-unsplash.jpg" class="card-img h-100 object-fit-cover" alt="Mobile Phones">
+          <div class="card-img-overlay d-flex flex-column justify-content-end p-4" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+            <h4 class="card-title fw-bold display-6">Mobile Phones</h4>
+            <p class="card-text mb-4">Sleek designs, powerful performance.</p>
+            <a href="#" class="btn btn-warning fw-bold px-4 py-2 rounded-pill shadow" style="background: linear-gradient(45deg, #ff6a00, #ff0000); border: none;">🔥 Shop Now</a>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Laptops -->
+      <div class="col">
+        <div class="card text-white bg-dark border-0 rounded-4 overflow-hidden h-100">
+          <img src="./images/howard-bouchevereau-RSCirJ70NDM-unsplash.jpg" class="card-img h-100 object-fit-cover" alt="Laptops">
+          <div class="card-img-overlay d-flex flex-column justify-content-end p-4" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+            <h4 class="card-title fw-bold display-6">Laptops</h4>
+            <p class="card-text mb-4">Work, create, or game on the go.</p>
+            <a href="#" class="btn btn-warning fw-bold px-4 py-2 rounded-pill shadow" style="background: linear-gradient(45deg, #ff6a00, #ff0000); border: none;">🔥 Shop Now</a>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Audio Devices -->
+      <div class="col">
+        <div class="card text-white bg-dark border-0 rounded-4 overflow-hidden h-100">
+          <img src="./images/anna-keibalo-zczFCpKyTNc-unsplash.jpg" class="card-img h-100 object-fit-cover" alt="Audio Devices">
+          <div class="card-img-overlay d-flex flex-column justify-content-end p-4" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+            <h4 class="card-title fw-bold display-6">Audio Devices</h4>
+            <p class="card-text mb-4">Crisp sound, deep bass, wireless freedom.</p>
+            <a href="#" class="btn btn-warning fw-bold px-4 py-2 rounded-pill shadow" style="background: linear-gradient(45deg, #ff6a00, #ff0000); border: none;">🔥 Shop Now</a>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  <section class="py-10 bg-white">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-4">Start Your Shopping Journey</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">
+        Discover the latest gadgets and electronics today! With unbeatable prices and fast delivery, there's never been a better time to shop. Don't miss out on our exclusive offers and exceptional customer service.
+      </p>
+      <div class="mt-6 flex justify-center space-x-4">
+        <a href="#" class="btn btn-dark px-4 py-2 rounded-lg">Shop Now →</a>
+        <a href="#" class="btn btn-outline-dark px-4 py-2 rounded-lg">Learn More →</a>
+      </div>
+      <!-- Ticker -->
+      <div class="overflow-hidden mt-10">
+        <div class="relative">
+          <div class="animate-ticker whitespace-nowrap">
+            <span class="inline-block mx-4">
+              <strong>Micheal Evo</strong> - Marketing Lead
+            </span>
+            <span class="inline-block mx-4">
+              <strong>David Obiorah</strong> - Sales Agent
+            </span>
+            <span class="inline-block mx-4">
+              <strong>James Teacher</strong> - Customer Support
+            </span>
+            <span class="inline-block mx-4">
+              <strong>Jordan Teacher</strong> - Marketing Lead
+            </span>
+            <span class="inline-block mx-4">
+              <strong>Teacher Muna</strong> - Sales Agent
+            </span>
+            <span class="inline-block mx-4">
+              <strong>Casey Blake</strong> - Customer Support
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <section class="py-10 bg-gray-100">
+        <div class="container mx-auto text-center">
+          <h2 class="text-3xl font-bold mb-4">Explore Our Wide Range of Products</h2>
+          <a href="#" class="btn btn-dark px-4 py-2 rounded-lg">Shop Now →</a>
+          <div class="grid grid-cols-4 gap-4 mt-10 text-left">
+            <!-- Column 1 -->
+            <div>
+              <h3 class="font-bold text-lg">Discover Top Electronics</h3>
+              <p class="text-gray-500 mt-2">davedev©  Copyright - 2025</p>
+            </div>
+            <!-- Column 2 -->
+            <div>
+              <h3 class="font-bold text-lg">Quick Links</h3>
+              <ul class="mt-2 space-y-1">
+                <li><a href="#" class="text-gray-700 hover:underline">Smartphones</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">Laptops</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">TV</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">Accessories</a></li>
+              </ul>
+            </div>
+            <!-- Column 3 -->
+            <div>
+              <h3 class="font-bold text-lg">Follow Us</h3>
+              <ul class="mt-2 space-y-1">
+                <li><a href="#" class="text-gray-700 hover:underline">Facebook</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">Twitter</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">Instagram</a></li>
+              </ul>
+            </div>
+            <!-- Column 4 -->
+            <div>
+              <h3 class="font-bold text-lg">Customer Service</h3>
+              <ul class="mt-2 space-y-1">
+                <li><a href="#" class="text-gray-700 hover:underline">Contact Us</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">FAQ</a></li>
+              </ul>
+            </div>
+          </div>
+          <h1 class=" text-[#09128d] text-[60px] sm:text-[100px] md:text-[180px] lg:text-[250px] xl:text-[300px] font-bold mt-10 text-center leading-none">
+            MACELECT
+          </h1>
+          
+        </div>
+      </section>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

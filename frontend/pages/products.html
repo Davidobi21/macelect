@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electronic Gadgets Store</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="../js/pjs.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="flex justify-between items-center px-4 py-3">
+      <div class="flex items-center gap-3">
+        <!-- Hamburger Button -->
+        <button id="hamburgerBtn" class="block">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+
+        <!-- Sidebar Overlay -->
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-50 transform -translate-x-full transition-transform duration-300">
+          <div class="p-4 flex justify-between items-center border-b">
+            <h2 class="font-bold text-xl">Menu</h2>
+            <button id="closeSidebarBtn">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+          <nav class="p-4 space-y-4">
+            <a href="../index.html" class="block text-gray-700 hover:text-blue-600">Home</a>
+            <a href="./aboutus.html" class="block text-gray-700 hover:text-blue-600">About</a>
+            <a href="./fqa.html" class="block text-gray-700 hover:text-blue-600">FAQ</a>
+          </nav>
+        </aside>
+
+        <span class="text-xl font-bold text-blue-800">MacElect</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button><i data-lucide="shopping-cart" class="w-6 h-6"></i></button>
+        <button><i data-lucide="user" class="w-6 h-6"></i></button>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Search & Category -->
+  <div class="bg-white px-4 py-3 shadow">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <input type="text" id="searchInput" placeholder="Search products..."
+        class="w-full md:w-1/2 px-4 py-2 border rounded">
+      <div class="flex gap-3 overflow-x-auto whitespace-nowrap" id="categoryButtons">
+        <button class="filter-btn text-sm border px-4 py-2 rounded bg-blue-100 text-blue-800" data-category="All">All</button>
+        <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="Phones">Phones</button>
+        <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="Laptops">Laptops</button>
+        <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="Headphones">Audio Devices</button>
+        <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="Cameras">Cameras</button>
+        <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="Accessories">Accessories</button>
+      </div>
+    </div>
+  </div>
+  
+  <main class="grid grid-cols-1 lg:grid-cols-4 gap-6 p-4">
+    <!-- Sidebar -->
+    <aside class="hidden lg:block sticky top-24 space-y-6">
+      <h3 class="font-semibold text-lg">Filters</h3>
+      <div>
+        <h4 class="text-sm font-medium mb-2">Category</h4>
+        <ul class="space-y-1">
+          <li><input type="checkbox" class="category-checkbox" value="Phones"> Phones</li>
+          <li><input type="checkbox" class="category-checkbox" value="Laptops"> Laptops</li>
+          <li><input type="checkbox" class="category-checkbox" value="Laptops"> Audio Devices</li>
+          <li><input type="checkbox" class="category-checkbox" value="Laptops"> Accessories</li>
+          <li><input type="checkbox" class="category-checkbox" value="Cameras"> Cameras</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-medium mb-2">Price Range</h4>
+        <input type="range" id="priceSlider" min="0" max="1000" value="1000" class="w-full">
+        <span class="text-sm block mt-1">Max: $<span id="priceValue">1000</span></span>
+      </div>
+    </aside>
+  
+    <!-- Products Grid -->
+    <section id="productGrid" class="lg:col-span-3 grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      <!-- Example Product Card -->
+      <div class="col">
+        <div class="card h-100 shadow-lg rounded-lg overflow-hidden position-relative product-card"
+        data-name="Wireless Bluetooth Headset"
+        data-category="Headphones"
+        data-price="35.99">   
+          <!-- Product Image Swap -->
+          <div class="card-img-container position-relative" style="height: 300px;">
+            <!-- Main Image -->
+            <img src="../images/anna-keibalo-3vdOy66U8KI-unsplash.jpg" class="card-img-top main-img rounded" alt="Wireless Bluetooth Headset" style="height: 100%; object-fit: cover;">
+            
+            <!-- Hover Image -->
+            <img src="../images/anna-keibalo-zczFCpKyTNc-unsplash.jpg" class="card-img-top hover-img position-absolute top-0 start-0 rounded" alt="Hover Image" style="height: 100%; width: 100%; object-fit: cover;">
+            
+            <!-- Optional Gradient Overlay -->
+            <div class="overlay position-absolute top-0 bottom-0 start-0 end-0 bg-gradient-to-t from-black opacity-50"></div>
+          </div>
+      
+          <div class="card-body text-center">
+            <h5 class="card-title font-bold text-truncate" style="max-width: 200px;">Wireless Bluetooth Headset</h5>
+            <p class="text-gray-500">Shipped in 3-4 days</p>
+            <p class="text-black font-bold">$35.99</p>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-outline-secondary flex-grow-1 me-2 position-relative">
+                <i data-lucide="shopping-cart" class="lucide"></i>
+                <span class="btn-label">Add to Cart</span>
+              </button>
+              <button class="btn bg-[#09128d] flex-grow-1 position-relative">
+                <i data-lucide="credit-card" class="lucide"></i>
+                <span class="btn-label">Buy Now</span>
+              </button>
+            </div>
+          </div>
+      
+          <!-- Sale Badge -->
+          <div class="badge position-absolute top-0 start-0 m-3 bg-danger text-white rounded-pill px-3 py-1">SALE</div>
+        </div>
+      </div>
+      
+      
+      
+      <!-- Duplicate above for more cards -->
+    </section>
+  </main>
+  
+
+
+  <footer>
+    <section class="py-10 bg-gray-100">
+        <div class="container mx-auto text-center">
+          <h2 class="text-3xl font-bold mb-4">Explore Our Wide Range of Products</h2>
+          <a href="#" class="btn btn-dark px-4 py-2 rounded-lg">Shop Now →</a>
+          <div class="grid grid-cols-4 gap-4 mt-10 text-left">
+            <!-- Column 1 -->
+            <div>
+              <h3 class="font-bold text-lg">Discover Top Electronics</h3>
+              <p class="text-gray-500 mt-2">davedev©  Copyright - 2025</p>
+            </div>
+            <!-- Column 2 -->
+            <div>
+              <h3 class="font-bold text-lg">Quick Links</h3>
+              <ul class="mt-2 space-y-1">
+                <li><a href="#" class="text-gray-700 hover:underline">Smartphones</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">Laptops</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">TV</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">Accessories</a></li>
+              </ul>
+            </div>
+            <!-- Column 3 -->
+            <div>
+              <h3 class="font-bold text-lg">Follow Us</h3>
+              <ul class="mt-2 space-y-1">
+                <li><a href="#" class="text-gray-700 hover:underline">Facebook</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">Twitter</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">Instagram</a></li>
+              </ul>
+            </div>
+            <!-- Column 4 -->
+            <div>
+              <h3 class="font-bold text-lg">Customer Service</h3>
+              <ul class="mt-2 space-y-1">
+                <li><a href="#" class="text-gray-700 hover:underline">Contact Us</a></li>
+                <li><a href="#" class="text-gray-700 hover:underline">FAQ</a></li>
+              </ul>
+            </div>
+          </div>
+          <h1 class=" text-[#09128d] text-[60px] sm:text-[100px] md:text-[180px] lg:text-[250px] xl:text-[300px] font-bold mt-10 text-center leading-none">
+            MACELECT
+          </h1>
+          
+        </div>
+      </section>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
