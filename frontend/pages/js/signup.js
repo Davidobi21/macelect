@@ -1,33 +1,71 @@
-document.getElementById('signUpForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-  
-    const fullName = document.getElementById('fullName').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-  
-    // Basic validation
-    if (!fullName || !email || !password || !confirmPassword) {
-      alert("Please fill in all fields.");
-      return;
+document.getElementById('signUpForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const fullName = document.getElementById('fullName').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  if (!fullName || !email || !password || !confirmPassword) return alert("Fill all fields.");
+  if (password !== confirmPassword) return alert("Passwords do not match.");
+  const strong = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+  if (!strong.test(password)) return alert("Password too weak.");
+
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: fullName, email, password }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      // Store email for OTP
+      localStorage.setItem("otpEmail", email);
+
+      // Hide signup form, show OTP
+      document.getElementById('signUpForm').style.display = 'none';
+      document.getElementById('otpSection').style.display = 'block';
+    } else {
+      alert(data.message);
     }
-  
-    // Password and Confirm Password matching validation
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong");
+  }
+});
+
+// OTP auto-move
+const inputs = document.querySelectorAll('#otpInputs input');
+inputs.forEach((input, i) => {
+  input.addEventListener('input', () => {
+    if (input.value && i < inputs.length - 1) {
+      inputs[i + 1].focus();
     }
-  
-    // Check if password is strong (you can customize this condition)
-    const passwordStrength = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordStrength.test(password)) {
-      alert("Password must be at least 8 characters long and contain both letters and numbers.");
-      return;
-    }
-  
-    // Sign up logic (e.g., make an API call to create a new user)
-    console.log("Signing up with:", fullName, email, password);
-  
-    // If successful, redirect to the sign-in page
-    window.location.href = "../login.html"; // Redirect to sign-in page after successful sign-up
   });
+});
+
+// Verify OTP
+document.getElementById('verifyBtn').addEventListener('click', async () => {
+  const otp = Array.from(inputs).map(i => i.value).join('');
+  const email = localStorage.getItem("otpEmail");
+
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/verify-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, otp }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert("OTP verified successfully");
+      window.location.href = "login.html";
+    } else {
+      alert(data.message || "OTP verification failed");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Failed to verify OTP");
+  }
+});

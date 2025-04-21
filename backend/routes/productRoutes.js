@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const verifyToken = require("../middleware/verifyAdmin");
 const Product = require('../models/products');
 
 // Create a new product
 router.post('/add', async (req, res) => {
+  console.log("📥 Product POST received:", req.body);
   try {
     const {
       name,
@@ -15,11 +17,16 @@ router.post('/add', async (req, res) => {
       quickDetails,
       shippingInfo,
       techSpecification,
+      category,
       images
     } = req.body;
 
     if (!name || !price || !images || images.length !== 5) {
       return res.status(400).json({ message: 'Name, price, and exactly 5 images are required.' });
+    }
+
+    if (!category) {
+      return res.status(400).json({ message: 'Category is required.' });
     }
 
     const newProduct = new Product({
@@ -32,11 +39,16 @@ router.post('/add', async (req, res) => {
       quickDetails,
       shippingInfo,
       techSpecification,
-      images
+      images,
+      category
     });
 
     const savedProduct = await newProduct.save();
-    res.status(201).json({ message: 'Product created', product: savedProduct });
+    res.status(201).json({
+      success: true,
+      message: "Product added successfully",
+      product: savedProduct
+    });
   } catch (error) {
     console.error("❌ Error adding product:", error);
     res.status(500).json({ message: error.message || "Something went wrong" });
@@ -44,7 +56,7 @@ router.post('/add', async (req, res) => {
 });
 
 // GET all products
-router.get("/", async (req, res) => {
+router.get("/", async  (req, res) => {
     try {
       const products = await Product.find();
       res.status(200).json(products);
