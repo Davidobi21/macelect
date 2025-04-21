@@ -7,7 +7,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 
@@ -317,9 +316,6 @@
 </div>
 
 
-<!-- SweetAlert2 CDN -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script>
   const token = localStorage.getItem('adminToken');
   const email = localStorage.getItem('adminEmail');
@@ -330,13 +326,8 @@
   }
 
   if (!token) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Unauthorized',
-      text: 'Please log in as an admin.'
-    }).then(() => {
-      window.location.href = './admin-login.html';
-    });
+    alert('Unauthorized. Please log in as an admin.');
+    window.location.href = './admin-login.html';
   }
 
   document.getElementById('logout-btn').addEventListener('click', () => {
@@ -354,7 +345,7 @@
       document.getElementById('product-count').textContent = stats.totalProducts;
       document.getElementById('order-count').textContent = stats.totalOrders;
       document.getElementById('user-count').textContent = stats.totalUsers;
-      document.getElementById('revenue-count').textContent = `₦${stats.revenue || 0}`;
+      document.getElementById('revenue-count').textContent = `$${stats.revenue || 0}`;
 
       // Orders
       const ordersHTML = (stats.recentOrders || []).length
@@ -381,9 +372,10 @@
     })
     .catch(err => {
       console.error(err);
-      Swal.fire('Error', 'Failed to load dashboard data.', 'error');
+      alert('Failed to load dashboard data.');
     });
 
+  // Switch Sections
   function showSection(sectionId, el) {
     document.querySelectorAll('#sidebar-menu .nav-link').forEach(l => l.classList.remove('active-sidebar'));
     el.classList.add('active-sidebar');
@@ -392,6 +384,7 @@
     if (sectionId === 'products-section') fetchAndDisplayProducts();
   }
 
+  // Fetch Products
   function fetchAndDisplayProducts() {
     fetch("http://localhost:5000/api/products", {
       headers: { Authorization: "Bearer " + token }
@@ -403,7 +396,8 @@
 
         if (products && products.length) {
           body.innerHTML = products.map(p => {
-            const img = p.images?.[0] ? `http://localhost:5000${p.images[0]}` : '';
+            const baseImageUrl = 'http://localhost:5000/uploads/';
+    const img = p.images?.[0] ? baseImageUrl + p.images[0] : 'https://via.placeholder.com/50';
               name = p.name || "Unnamed";
               cat = p.category || "Uncategorized";
               const price = `₦${(p.price || 0).toLocaleString()}`;
@@ -413,7 +407,7 @@
               <tr class="border-b hover:bg-gray-50">
                 <td class="px-4 py-2"><input type="checkbox"/></td>
                 <td class="px-4 py-2 flex items-center gap-2">
-                   ${img ? `<img src="${img}" class="w-10 h-10 rounded object-cover" alt="">` : ''}
+                  <img src="${img}" class="w-10 h-10 rounded object-cover" alt="">
                   <span>${name}</span>
                 </td>
                 <td class="px-4 py-2">${cat}</td>
@@ -438,36 +432,27 @@
   }
 
   function deleteProduct(id) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`http://localhost:5000/api/products/${id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
+    if (confirm("Are you sure? You won't be able to revert this!")) {
+      fetch(`http://localhost:5000/api/products/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          alert("Product has been removed.");
+          fetchAndDisplayProducts();
         })
-          .then(res => res.json())
-          .then(data => {
-            Swal.fire('Deleted!', 'Product has been removed.', 'success');
-            fetchAndDisplayProducts();
-          })
-          .catch(err => {
-            console.error("❌ Error deleting product:", err);
-            Swal.fire('Error', 'Failed to delete product.', 'error');
-          });
-      }
-    });
+        .catch(err => {
+          console.error("❌ Error deleting product:", err);
+          alert("Failed to delete product.");
+        });
+    }
   }
 
+  // Upload image function
   async function uploadImages(images) {
     const formData = new FormData();
     images.forEach(file => formData.append('images', file));
@@ -479,20 +464,22 @@
       });
 
       const data = await response.json();
-      console.log("Image Upload Response:", data);
+      console.log("Image Upload Response:", data); // Log the response for debugging
 
+      // Adjust condition based on the actual response structure
       if (!response.ok || !data.filePaths) {
-        console.error("Image Upload Error:", data);
+        console.error("Image Upload Error:", data); // Log the response data for debugging
         throw new Error(data.message || "Image upload failed");
       }
 
-      return data.filePaths;
+      return data.filePaths; // Use the correct property from the response
     } catch (error) {
-      console.error("❌ Upload Images Error:", error.message, error.stack);
-      throw error;
+      console.error("❌ Upload Images Catch Block Error:", error.message, error.stack); // Log detailed error
+      throw error; // Re-throw the error to handle it in the calling function
     }
   }
 
+  // Handle product form submit
   document.getElementById('productModal').addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -515,29 +502,18 @@
 
       if (productImages.length !== 5) {
         loader.style.display = 'none';
-        return Swal.fire({
-          icon: 'warning',
-          title: 'Exactly 5 Images Required',
-          text: 'Please upload exactly 5 product images.'
-        });
+        alert('Please upload exactly 5 images.');
+        return;
       }
 
       for (let file of productImages) {
         if (!allowedTypes.includes(file.type)) {
-          loader.style.display = 'none';
-          return Swal.fire({
-            icon: 'error',
-            title: 'Invalid Image Type',
-            text: `${file.name} is not a valid image.`
-          });
+          alert(`${file.name} is not a valid image.`);
+          throw new Error(`${file.name} is not a valid image.`);
         }
         if (file.size > maxSize) {
-          loader.style.display = 'none';
-          return Swal.fire({
-            icon: 'error',
-            title: 'Image Too Large',
-            text: `${file.name} exceeds the 5MB size limit.`
-          });
+          alert(`${file.name} exceeds the 5MB limit.`);
+          throw new Error(`${file.name} exceeds the 5MB limit.`);
         }
       }
 
@@ -579,16 +555,17 @@
       }
 
       loader.style.display = 'none';
-      Swal.fire('Success', 'Product added successfully!', 'success');
+      alert('Product added successfully!');
       $('#productModal').modal('hide');
       fetchAndDisplayProducts();
     } catch (error) {
       console.error('❌ ERROR:', error.message);
+      alert(error.message || 'Something went wrong.');
       document.getElementById('loading-spinner').style.display = 'none';
-      Swal.fire('Error', error.message || 'Something went wrong.', 'error');
     }
   });
 
+  // Tech Spec Handler
   document.getElementById('addTechSpecBtn').addEventListener('click', function () {
     const feature = document.getElementById('techSpecFeature').value;
     const detail = document.getElementById('techSpecDetail').value;
@@ -610,11 +587,10 @@
         container.removeChild(newDiv);
       });
     } else {
-      Swal.fire('Oops!', 'Fill in both feature and detail.', 'warning');
+      alert('Fill in both feature and detail.');
     }
   });
 </script>
-
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

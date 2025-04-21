@@ -1,3 +1,5 @@
+const upload = multer({ storage: storage });
+
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -5,23 +7,22 @@ const fs = require('fs');
 const multer = require('multer');
 
 // ✅ Point to the uploads folder outside backend
-const uploadPath = path.join(__dirname, 'uploads');
+const uploadPath = path.join(__dirname, '..', 'uploads');
 
 // ✅ Ensure the folder exists
 if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath);
+  fs.mkdirSync(uploadPath);
 }
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadPath); // Save outside backend folder
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
+  destination: function (req, file, cb) {
+    cb(null, uploadPath); // Save outside backend folder
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
 });
 
-const upload = multer({ storage: storage });
 
 // 🔥 Upload Route
 router.post('/upload-images', upload.array('images', 5), (req, res) => {

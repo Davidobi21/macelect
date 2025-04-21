@@ -5,7 +5,7 @@ const fs = require('fs');
 const multer = require('multer');
 
 // ✅ Point to the uploads folder outside backend
-const uploadPath = path.join(__dirname, 'uploads');
+const uploadPath = path.join(__dirname, '..', 'uploads');
 
 // ✅ Ensure the folder exists
 if (!fs.existsSync(uploadPath)) {

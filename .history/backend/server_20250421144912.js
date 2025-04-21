@@ -49,8 +49,7 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use("/upload", uploadRoutes);
 
 // Static files
-app.use('/uploads', express.static(uploadsPath));
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 

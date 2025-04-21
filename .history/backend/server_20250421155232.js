@@ -27,7 +27,7 @@ connectDB();
 const app = express();
 
 // Ensure uploads directory exists
-const uploadsPath = path.join(__dirname, 'uploads');
+const uploadsPath = path.join(__dirname, '..', 'uploads');
 if (!fs.existsSync(uploadsPath)) {
   fs.mkdirSync(uploadsPath, { recursive: true });
 }
