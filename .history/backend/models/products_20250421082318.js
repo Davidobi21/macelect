@@ -33,12 +33,7 @@ const productSchema = new mongoose.Schema({
     type: String, // ✅ changed from Number to String (for values like "3-5 business days")
     required: true,
   },
-  techSpecification: [
-    {
-      feature: { type: String, required: true },
-      detail: { type: String, required: true },
-    },
-  ],
+  techSpecification:{ type: [String], default: [] }, // Array of feature-detail rows
   images: {
     type: [String], // URLs of images
     validate: [arrayLimit, '{PATH} must have exactly 5 images']

@@ -27,7 +27,7 @@ connectDB();
 const app = express();
 
 // Ensure uploads directory exists
-const uploadsPath = path.join(__dirname, 'uploads');
+const uploadsPath = path.join(__dirname, './uploads');
 if (!fs.existsSync(uploadsPath)) {
   fs.mkdirSync(uploadsPath, { recursive: true });
 }
@@ -49,8 +49,7 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use("/upload", uploadRoutes);
 
 // Static files
-app.use('/uploads', express.static(uploadsPath));
-
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 
 // Routes
 

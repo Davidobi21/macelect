@@ -4,7 +4,6 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
-const fs = require('fs');
 const connectDB = require('./config/db');
 const admin = require('./routes/admin');
 const adminRoutes = require('./routes/adminRoutes');
@@ -25,13 +24,10 @@ dotenv.config();
 connectDB();
 
 const app = express();
-
-// Ensure uploads directory exists
-const uploadsPath = path.join(__dirname, 'uploads');
+const uploadsPath = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadsPath)) {
-  fs.mkdirSync(uploadsPath, { recursive: true });
+  fs.mkdirSync(uploadsPath);
 }
-
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -48,11 +44,13 @@ app.use('/api/users', userRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use("/upload", uploadRoutes);
 
+
 // Static files
-app.use('/uploads', express.static(uploadsPath));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 
 // Routes
+
 
 app.get('/', (req, res) => {
     res.send('API is running...');
