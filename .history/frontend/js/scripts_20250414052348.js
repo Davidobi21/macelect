@@ -1,80 +1,34 @@
 // scripts.js
 // This file contains JavaScript code for the frontend of the application
-document.addEventListener("DOMContentLoaded", async function () {
-  const productContainer = document.getElementById("homepage-product-list");
-
-  if (!productContainer) return;
-
-  try {
-    const response = await fetch('http://localhost:5000/api/products');
-    const products = await response.json();
-
-    // Select 4 random products
-    const randomProducts = products.sort(() => 0.5 - Math.random()).slice(0, 4);
-
-    randomProducts.forEach(product => {
-      const mainImage = product.images?.[0] ? `http://localhost:5000${product.images[0]}` : "../images/default-main.jpg";
-      const hoverImage = product.images?.[1] ? `http://localhost:5000${product.images[1]}` : mainImage;
-
-      const productCard = `
-        <div class="col">
-          <div class="bg-white shadow-lg rounded-lg overflow-hidden group product-card position-relative"
-            data-name="${product.name}" 
-            data-category="${product.category}" 
-            data-price="${product.price}">
-            <div class="relative">
-            <div class="brand-img-wrapper position-relative">
-              <img src="${mainImage}" class="main-img w-100 h-100 object-fit-cover" alt="${product.name}">
-              <img src="${hoverImage}" class="hover-img w-100 h-100 object-fit-cover position-absolute top-0 start-0" alt="Hover Image">
-              <div class="position-absolute bottom-0 start-0 end-0 p-3 d-flex justify-content-between align-items-center bg-dark bg-opacity-50 text-white fw-bold fs-6">
-                <span class="text-uppercase">${product.category}</span>
-                <span>₦${product.price.toLocaleString()}</span>
-              </div>
-              </div>
-              ${product.sale ? `<div class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-end-4 fs-6 fw-semibold">SALE</div>` : ''}
-            </div>
-            <div class="p-4 bg-white" style="min-height: 180px;">
-              <h5 class="fw-bold text-dark mb-2">${product.name}</h5>
-              <p class="text-muted small mb-3">Ships in ${product.shippingInfo || 'N/A'}</p>
-              <div class="d-flex justify-content-between gap-2">
-                <button class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-1">
-                  <i data-lucide="shopping-cart" class="lucide w-4 h-4"></i><span>Add</span>
-                </button>
-                <button class="btn w-100 d-flex align-items-center justify-content-center gap-1 text-white" style="background: #000;">
-                  <i data-lucide="zap" class="lucide w-4 h-4"></i><span>Buy Now</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      productContainer.innerHTML += productCard;
-    });
-
-    lucide.createIcons();
-  } catch (err) {
-    console.error("Error fetching products:", err);
-    productContainer.innerHTML = '<p class="text-danger">Failed to load products. Please try again later.</p>';
-  }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
-  lucide.createIcons();
-  const mobileBtn = document.getElementById('mobileMenuButton');
-  const mobileMenu = document.getElementById('mobileMenu');
+lucide.createIcons();
+const mobileBtn = document.getElementById('mobileMenuButton');
+const mobileMenu = document.getElementById('mobileMenu');
 
-  mobileBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
-  });
-  function toggleDrawer() {
+mobileBtn.addEventListener('click', () => {
+  mobileMenu.classList.toggle('hidden');
+});
+function toggleDrawer() {
     const drawer = document.getElementById('mobileDrawer');
     drawer.classList.toggle('-translate-x-full');
   }
 
+// Function to toggle the visibility of the sidebar
+    // function toggleSidebar() {
+    // const toggleSidebarButton = document.getElementById("toggleSidebar");
+    // const sidebar = document.querySelector(".lg\\:fixed");
+    // }
+  
+    // if (toggleSidebarButton && sidebar) {
+    //   toggleSidebarButton.addEventListener("click", () => {
+    //     sidebar.classList.toggle("-translate-x-full");
+    //   });
+    // }
+
+  
   const categoriesButton = document.getElementById('categoriesButton');
   const dropdownMenu = categoriesButton.nextElementSibling;
-
+  
   let dropdownVisible = false;
 
   // Toggle dropdown on button click
@@ -149,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCount();
   });
 
+
   const searchInput = document.getElementById('searchInput');
   const priceSlider = document.getElementById('priceSlider');
   const priceValue = document.getElementById('priceValue');
@@ -201,33 +156,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Get the container
-const productList = document.getElementById('product-list');
-
-// Add event listener to the container
-productList.addEventListener('click', function(event) {
-  const addToCartBtn = event.target.closest('button'); // if button was clicked
-
-  if (addToCartBtn && addToCartBtn.innerText.includes('Add')) {
-    // Find the product card parent
-    const productCard = addToCartBtn.closest('[data-id]');
-
-    if (productCard) {
-      const productId = productCard.getAttribute('data-id');
-
-      console.log('Add to Cart clicked for Product ID:', productId);
-
-      // ✅ Now you can call your cart adding function here
-      addToCart(productId);
-    }
-  }
-});
-
-// Example cart function
-function addToCart(productId) {
-  // You can customize this
-  alert(`Product ${productId} added to cart! 🛒`);
-  // Or send it to your API / localStorage / whatever
-}
 
 });

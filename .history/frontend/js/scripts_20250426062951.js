@@ -23,13 +23,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             data-category="${product.category}" 
             data-price="${product.price}">
             <div class="relative">
-            <div class="brand-img-wrapper position-relative">
               <img src="${mainImage}" class="main-img w-100 h-100 object-fit-cover" alt="${product.name}">
               <img src="${hoverImage}" class="hover-img w-100 h-100 object-fit-cover position-absolute top-0 start-0" alt="Hover Image">
               <div class="position-absolute bottom-0 start-0 end-0 p-3 d-flex justify-content-between align-items-center bg-dark bg-opacity-50 text-white fw-bold fs-6">
                 <span class="text-uppercase">${product.category}</span>
                 <span>₦${product.price.toLocaleString()}</span>
-              </div>
               </div>
               ${product.sale ? `<div class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-end-4 fs-6 fw-semibold">SALE</div>` : ''}
             </div>
@@ -200,34 +198,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
-  // Get the container
-const productList = document.getElementById('product-list');
-
-// Add event listener to the container
-productList.addEventListener('click', function(event) {
-  const addToCartBtn = event.target.closest('button'); // if button was clicked
-
-  if (addToCartBtn && addToCartBtn.innerText.includes('Add')) {
-    // Find the product card parent
-    const productCard = addToCartBtn.closest('[data-id]');
-
-    if (productCard) {
-      const productId = productCard.getAttribute('data-id');
-
-      console.log('Add to Cart clicked for Product ID:', productId);
-
-      // ✅ Now you can call your cart adding function here
-      addToCart(productId);
-    }
-  }
-});
-
-// Example cart function
-function addToCart(productId) {
-  // You can customize this
-  alert(`Product ${productId} added to cart! 🛒`);
-  // Or send it to your API / localStorage / whatever
-}
-
 });

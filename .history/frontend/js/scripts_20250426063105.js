@@ -200,34 +200,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
-  // Get the container
-const productList = document.getElementById('product-list');
-
-// Add event listener to the container
-productList.addEventListener('click', function(event) {
-  const addToCartBtn = event.target.closest('button'); // if button was clicked
-
-  if (addToCartBtn && addToCartBtn.innerText.includes('Add')) {
-    // Find the product card parent
-    const productCard = addToCartBtn.closest('[data-id]');
-
-    if (productCard) {
-      const productId = productCard.getAttribute('data-id');
-
-      console.log('Add to Cart clicked for Product ID:', productId);
-
-      // ✅ Now you can call your cart adding function here
-      addToCart(productId);
-    }
-  }
-});
-
-// Example cart function
-function addToCart(productId) {
-  // You can customize this
-  alert(`Product ${productId} added to cart! 🛒`);
-  // Or send it to your API / localStorage / whatever
-}
-
 });

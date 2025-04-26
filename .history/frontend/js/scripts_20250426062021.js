@@ -18,33 +18,31 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       const productCard = `
         <div class="col">
-          <div class="bg-white shadow-lg rounded-lg overflow-hidden group product-card position-relative"
+          <div class="card h-100 shadow-lg rounded-lg overflow-hidden position-relative product-card"
             data-name="${product.name}" 
             data-category="${product.category}" 
             data-price="${product.price}">
-            <div class="relative">
-            <div class="brand-img-wrapper position-relative">
-              <img src="${mainImage}" class="main-img w-100 h-100 object-fit-cover" alt="${product.name}">
-              <img src="${hoverImage}" class="hover-img w-100 h-100 object-fit-cover position-absolute top-0 start-0" alt="Hover Image">
-              <div class="position-absolute bottom-0 start-0 end-0 p-3 d-flex justify-content-between align-items-center bg-dark bg-opacity-50 text-white fw-bold fs-6">
-                <span class="text-uppercase">${product.category}</span>
-                <span>₦${product.price.toLocaleString()}</span>
-              </div>
-              </div>
-              ${product.sale ? `<div class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-end-4 fs-6 fw-semibold">SALE</div>` : ''}
+            <div class="card-img-container position-relative" style="height: 300px;">
+              <img src="${mainImage}" class="card-img-top main-img rounded" alt="${product.name}" style="height: 100%; object-fit: cover;">
+              <img src="${hoverImage}" class="card-img-top hover-img position-absolute top-0 start-0 rounded" alt="Hover Image" style="height: 100%; width: 100%; object-fit: cover;">
+              <div class="overlay position-absolute top-0 bottom-0 start-0 end-0 bg-gradient-to-t from-black opacity-50"></div>
             </div>
-            <div class="p-4 bg-white" style="min-height: 180px;">
-              <h5 class="fw-bold text-dark mb-2">${product.name}</h5>
-              <p class="text-muted small mb-3">Ships in ${product.shippingInfo || 'N/A'}</p>
-              <div class="d-flex justify-content-between gap-2">
-                <button class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-1">
-                  <i data-lucide="shopping-cart" class="lucide w-4 h-4"></i><span>Add</span>
+            <div class="card-body text-center">
+              <h5 class="card-title font-bold text-truncate" style="max-width: 200px;">${product.name}</h5>
+              <p class="text-gray-500">Shipped in ${product.shippingInfo || 'N/A'}</p>
+              <p class="text-black font-bold">₦${product.price.toLocaleString()}</p>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary flex-grow-1 me-2 position-relative">
+                  <i data-lucide="shopping-cart" class="lucide"></i>
+                  <span class="btn-label">Add to Cart</span>
                 </button>
-                <button class="btn w-100 d-flex align-items-center justify-content-center gap-1 text-white" style="background: #000;">
-                  <i data-lucide="zap" class="lucide w-4 h-4"></i><span>Buy Now</span>
+                <button class="btn bg-[#09128d] flex-grow-1 position-relative">
+                  <i data-lucide="credit-card" class="lucide"></i>
+                  <span class="btn-label">Buy Now</span>
                 </button>
               </div>
             </div>
+            ${product.sale ? `<div class="badge position-absolute top-0 start-0 m-3 bg-danger text-white rounded-pill px-3 py-1">SALE</div>` : ''}
           </div>
         </div>
       `;
@@ -200,34 +198,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
-  // Get the container
-const productList = document.getElementById('product-list');
-
-// Add event listener to the container
-productList.addEventListener('click', function(event) {
-  const addToCartBtn = event.target.closest('button'); // if button was clicked
-
-  if (addToCartBtn && addToCartBtn.innerText.includes('Add')) {
-    // Find the product card parent
-    const productCard = addToCartBtn.closest('[data-id]');
-
-    if (productCard) {
-      const productId = productCard.getAttribute('data-id');
-
-      console.log('Add to Cart clicked for Product ID:', productId);
-
-      // ✅ Now you can call your cart adding function here
-      addToCart(productId);
-    }
-  }
-});
-
-// Example cart function
-function addToCart(productId) {
-  // You can customize this
-  alert(`Product ${productId} added to cart! 🛒`);
-  // Or send it to your API / localStorage / whatever
-}
-
 });

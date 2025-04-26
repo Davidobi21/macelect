@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <span class="text-uppercase">${product.category}</span>
                 <span>₦${product.price.toLocaleString()}</span>
               </div>
-              </div>
               ${product.sale ? `<div class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-end-4 fs-6 fw-semibold">SALE</div>` : ''}
             </div>
             <div class="p-4 bg-white" style="min-height: 180px;">
@@ -200,34 +199,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
-  // Get the container
-const productList = document.getElementById('product-list');
-
-// Add event listener to the container
-productList.addEventListener('click', function(event) {
-  const addToCartBtn = event.target.closest('button'); // if button was clicked
-
-  if (addToCartBtn && addToCartBtn.innerText.includes('Add')) {
-    // Find the product card parent
-    const productCard = addToCartBtn.closest('[data-id]');
-
-    if (productCard) {
-      const productId = productCard.getAttribute('data-id');
-
-      console.log('Add to Cart clicked for Product ID:', productId);
-
-      // ✅ Now you can call your cart adding function here
-      addToCart(productId);
-    }
-  }
-});
-
-// Example cart function
-function addToCart(productId) {
-  // You can customize this
-  alert(`Product ${productId} added to cart! 🛒`);
-  // Or send it to your API / localStorage / whatever
-}
-
 });
