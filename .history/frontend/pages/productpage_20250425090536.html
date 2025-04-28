@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/style.css">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="../js/pjs.js" defer></script>
+  <script src="../js/pjss.js" defer></script>
+</head>
+<body class="bg-white text-black">
+  <!-- Back Button -->
+  <div class="max-w-6xl mx-auto px-4 py-4">
+    <a href="./products.html" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline">
+      <i data-lucide="arrow-left" class="h-5 w-5 mr-1"></i>
+      Back to Products
+    </a>
+  </div>
+  <div class="max-w-6xl mx-auto px-4 py-10">lass="max-w-6xl mx-auto px-4 py-10">lass="max-w-6xl mx-auto px-4 py-10">
+    <div class="grid md:grid-cols-2 gap-10">
+      <!-- Left Section: Product Info -->
+      <div>
+        <h1 class="text-3xl font-bold mb-2"></h1>2"></h1>2"></h1>
+        <p class="product-category text-sm text-gray-600 mb-4"></p>m text-gray-600 mb-4"></p>m text-gray-600 mb-4"></p>
+        <p class="product-price text-2xl font-semibold mb-2"></p>ibold mb-2"></p>ibold mb-2"></p>
+        <div class="flex items-center mb-4">
+          <div class="text-yellow-500 mr-2">
+            ★★★★☆
+          </div>
+          <p class="text-sm text-gray-600">532 reviews</p>32 reviews</p>32 reviews</p>
+        </div>
+        <!-- Color Options -->r Options -->r Options -->
+        <div class="mb-4">
+          <p class="text-sm font-medium mb-1">Color</p>
+          <div class="flex space-x-2 color-options"></div> class="flex space-x-2 color-options"></div> class="flex space-x-2 color-options"></div>
+        </div>
+        <!-- Size Dropdown -->
+        <div class="mb-4">
+          <p class="text-sm font-medium mb-1">Size</p>
+          <select class="w-full border border-gray-300 rounded px-4 py-2 text-sm size-dropdown">nded px-4 py-2 text-sm size-dropdown">nded px-4 py-2 text-sm size-dropdown">
+            <option value="">Select Size</option>ption value="">Select Size</option>ption value="">Select Size</option>
+          </select>
+        </div>
+        <!-- Quantity -->
+        <div class="mb-4">
+          <input type="number" value="1" min="1" class="w-20 border border-gray-300 rounded px-4 py-2 text-sm"> py-2 text-sm"> py-2 text-sm">
+        </div>
+        <!-- Buttons -->s -->s -->
+        <div class="mb-6">lass="mb-6">lass="mb-6">
+          <button class="w-full bg-[#09128d] text-white py-2 text-sm font-semibold mb-2 hover:bg-[#55555500] text-[#000000] transition">Add to cart</button>w-full bg-[#09128d] text-white py-2 text-sm font-semibold mb-2 hover:bg-[#55555500] text-[#000000] transition">Add to cart</button>w-full bg-[#09128d] text-white py-2 text-sm font-semibold mb-2 hover:bg-[#55555500] text-[#000000] transition">Add to cart</button>
+          <button class="w-full border border-gray-400 py-2 text-sm font-semibold hover:bg-gray-100 transition">Buy now</button>-full border border-gray-400 py-2 text-sm font-semibold hover:bg-gray-100 transition">Buy now</button>-full border border-gray-400 py-2 text-sm font-semibold hover:bg-gray-100 transition">Buy now</button>
+        </div>
+        <!-- Details -->
+        <div class="border-t pt-4">lass="border-t pt-4">lass="border-t pt-4">
+          <h2 class="font-semibold text-sm mb-1">Quick Details</h2>t-semibold text-sm mb-1">Quick Details</h2>t-semibold text-sm mb-1">Quick Details</h2>
+          <p class="text-sm text-gray-700 mb-4 quick-details"></p>m text-gray-700 mb-4 quick-details"></p>m text-gray-700 mb-4 quick-details"></p>
+          <h2 class="font-semibold text-sm mb-1 cursor-pointer">Shipping Info</h2>
+          <p class="text-sm text-gray-700 shipping-info"></p>
+        </div>
+      </div>
+      <!-- Right Section: Images -->: Images -->: Images -->
+      <div>
+        <div class="w-full h-[400px] bg-gray-100 flex items-center justify-center mb-4">justify-center mb-4">justify-center mb-4">
+          <img src="" class="main-product-image w-16 h-16 opacity-50" alt="Main Image">0" alt="Main Image">0" alt="Main Image">
+        </div>
+        <!-- Thumbnails -->
+        <div class="grid grid-cols-4 gap-2">
+          <div class="h-20 bg-gray-100 flex items-center justify-center">ify-center">ify-center">
+            <img src="" class="thumbnail w-8 h-8 opacity-50" alt="">mg src="" class="thumbnail w-8 h-8 opacity-50" alt="">mg src="" class="thumbnail w-8 h-8 opacity-50" alt="">
+          </div>div>div>
+          <div class="h-20 bg-gray-100 flex items-center justify-center">00 flex items-center justify-center">00 flex items-center justify-center">
+            <img src="" class="thumbnail w-8 h-8 opacity-50" alt="">nail w-8 h-8 opacity-50" alt="">nail w-8 h-8 opacity-50" alt="">
+          </div>
+          <div class="h-20 bg-gray-100 flex items-center justify-center">
+            <img src="https://via.placeholder.com/50" class="w-8 h-8 opacity-50" alt="Default Thumbnail">efault Thumbnail">efault Thumbnail">
+          </div>v>v>
+          <div class="h-20 bg-gray-100 flex items-center justify-center">bg-gray-100 flex items-center justify-center">bg-gray-100 flex items-center justify-center">
+            <img src="https://via.placeholder.com/50" class="w-8 h-8 opacity-50" alt="Default Thumbnail">r.com/50" class="w-8 h-8 opacity-50" alt="Default Thumbnail">r.com/50" class="w-8 h-8 opacity-50" alt="Default Thumbnail">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Technical Specifications Table -->
+    <div class="mt-10">
+      <h2 class="text-2xl font-bold mb-4">Technical Specifications</h2>
+      <table class="w-full border border-gray-300 text-sm">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 px-4 py-2 text-left">Feature</th>
+            <th class="border border-gray-300 px-4 py-2 text-left">Details</th>
+          </tr>
+        </thead>d>d>
+        <tbody>dy>dy>
+          <tr><tr><tr>
+            <td class="border border-gray-300 px-4 py-2">Battery Life</td>00 px-4 py-2">Battery Life</td>00 px-4 py-2">Battery Life</td>
+            <td class="border border-gray-300 px-4 py-2">Up to 20 hours</td>00 px-4 py-2">Up to 20 hours</td>00 px-4 py-2">Up to 20 hours</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2">Connectivity</td>nnectivity</td>nnectivity</td>
+            <td class="border border-gray-300 px-4 py-2">Bluetooth 5.0</td>er-gray-300 px-4 py-2">Bluetooth 5.0</td>er-gray-300 px-4 py-2">Bluetooth 5.0</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2">Weight</td>
+            <td class="border border-gray-300 px-4 py-2">250g</td>class="border border-gray-300 px-4 py-2">250g</td>class="border border-gray-300 px-4 py-2">250g</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2">Charging Time</td>>>
+            <td class="border border-gray-300 px-4 py-2">2 hours</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2">Noise Cancellation</td>n</td>n</td>
+            <td class="border border-gray-300 px-4 py-2">Active Noise Cancellation</td>llation</td>llation</td>
+          </tr>
+        </tbody>>>
+      </table>
+    </div>
+    <!-- Related Products Section -->
+    <div class="mt-10">"mt-10">"mt-10">
+      <h2 class="text-2xl font-bold mb-4">Related Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">ls-4 gap-6">ls-4 gap-6">
+        <!-- Product Card -->
+        <div class="col">ass="col">ass="col">
+          <div class="card h-100 shadow-lg rounded-lg overflow-hidden position-relative product-card"elative product-card"elative product-card"
+            data-name="Wireless Bluetooth Headset"
+            data-category="Headphones"
+            data-price="35.99">-price="35.99">-price="35.99">
+              <!-- Product Image Swap -->-- Product Image Swap -->-- Product Image Swap -->
+              <div class="card-img-container position-relative" style="height: 300px;"><div class="card-img-container position-relative" style="height: 300px;"><div class="card-img-container position-relative" style="height: 300px;">
+                <!-- Main Image -->      <!-- Main Image -->      <!-- Main Image -->
+                <img src="../images/anna-keibalo-3vdOy66U8KI-unsplash.jpg" class="card-img-top main-img rounded" alt="Wireless Bluetooth Headset" style="height: 100%; object-fit: cover;">nna-keibalo-3vdOy66U8KI-unsplash.jpg" class="card-img-top main-img rounded" alt="Wireless Bluetooth Headset" style="height: 100%; object-fit: cover;">nna-keibalo-3vdOy66U8KI-unsplash.jpg" class="card-img-top main-img rounded" alt="Wireless Bluetooth Headset" style="height: 100%; object-fit: cover;">
+                <!-- Hover Image -->
+                <img src="../images/anna-keibalo-zczFCpKyTNc-unsplash.jpg" class="card-img-top hover-img position-absolute top-0 start-0 rounded" alt="Hover Image" style="height: 100%; width: 100%; object-fit: cover;">splash.jpg" class="card-img-top hover-img position-absolute top-0 start-0 rounded" alt="Hover Image" style="height: 100%; width: 100%; object-fit: cover;">splash.jpg" class="card-img-top hover-img position-absolute top-0 start-0 rounded" alt="Hover Image" style="height: 100%; width: 100%; object-fit: cover;">
+                <!-- Optional Gradient Overlay -->
+                <div class="overlay position-absolute top-0 bottom-0 start-0 end-0 bg-gradient-to-t from-black opacity-50"></div>radient-to-t from-black opacity-50"></div>radient-to-t from-black opacity-50"></div>
+              </div>
+              <div class="card-body text-center">
+                <h5 class="card-title font-bold text-truncate" style="max-width: 200px;">Wireless Bluetooth Headset</h5>ooth Headset</h5>ooth Headset</h5>
+                <p class="text-gray-500">Shipped in 3-4 days</p>n 3-4 days</p>n 3-4 days</p>
+                <p class="text-black font-bold">$35.99</p>ont-bold">$35.99</p>ont-bold">$35.99</p>
+                <div class="d-flex justify-content-between">y-content-between">y-content-between">
+                  <button class="btn btn-outline-secondary flex-grow-1 me-2 position-relative">lative">lative">
+                    <i data-lucide="shopping-cart" class="lucide"></i>
+                    <span class="btn-label">Add to Cart</span>
+                  </button>
+                  <button class="btn bg-[#09128d] flex-grow-1 position-relative"> bg-[#09128d] flex-grow-1 position-relative"> bg-[#09128d] flex-grow-1 position-relative">
+                    <i data-lucide="credit-card" class="lucide"></i>
+                    <span class="btn-label">Buy Now</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Sale Badge -->ale Badge -->ale Badge -->
+              <div class="badge position-absolute top-0 start-0 m-3 bg-danger text-white rounded-pill px-3 py-1">SALE</div> top-0 start-0 m-3 bg-danger text-white rounded-pill px-3 py-1">SALE</div> top-0 start-0 m-3 bg-danger text-white rounded-pill px-3 py-1">SALE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-card"
+  <footer>
+    <section class="py-10 bg-gray-100">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-4">Explore Our Wide Range of Products</h2>
+        <div class="grid grid-cols-4 gap-4 mt-10 text-left">0px;">
+          <!-- Column 1 -->
+          <div>KI-unsplash.jpg" class="card-img-top main-img rounded" alt="Wireless Bluetooth Headset" style="height: 100%; object-fit: cover;">
+            <h3 class="font-bold text-lg">Discover Top Electronics</h3>Image -->-bold text-lg">Discover Top Electronics</h3>
+            <p class="text-gray-500 mt-2">davedev©  Copyright - 2025</p>rc="../images/anna-keibalo-zczFCpKyTNc-unsplash.jpg" class="card-img-top hover-img position-absolute top-0 start-0 rounded" alt="Hover Image" style="height: 100%; width: 100%; object-fit: cover;">text-gray-500 mt-2">davedev©  Copyright - 2025</p>
+          </div> Optional Gradient Overlay -->
+          <!-- Column 2 -->ay position-absolute top-0 bottom-0 start-0 end-0 bg-gradient-to-t from-black opacity-50"></div>
+          <div>
+            <h3 class="font-bold text-lg">Quick Links</h3>
+            <ul class="mt-2 space-y-1">5 class="card-title font-bold text-truncate" style="max-width: 200px;">Wireless Bluetooth Headset</h5>ass="mt-2 space-y-1">
+              <li><a href="#" class="text-gray-700 hover:underline">Smartphones</a></li>t-gray-500">Shipped in 3-4 days</p> class="text-gray-700 hover:underline">Smartphones</a></li>
+              <li><a href="#" class="text-gray-700 hover:underline">Laptops</a></li>t-black font-bold">$35.99</p> class="text-gray-700 hover:underline">Laptops</a></li>
+              <li><a href="#" class="text-gray-700 hover:underline">TV</a></li>
+              <li><a href="#" class="text-gray-700 hover:underline">Accessories</a></li>
+            </ul> class="lucide"></i>
+          </div>abel">Add to Cart</span>
+          <!-- Column 3 -->
+          <div>
+            <h3 class="font-bold text-lg">Follow Us</h3>
+            <ul class="mt-2 space-y-1">
+              <li><a href="#" class="text-gray-700 hover:underline">Facebook</a></li>
+              <li><a href="#" class="text-gray-700 hover:underline">Twitter</a></li> hover:underline">Twitter</a></li>
+              <li><a href="#" class="text-gray-700 hover:underline">Instagram</a></li>
+            </ul>
+          </div>top-0 start-0 m-3 bg-danger text-white rounded-pill px-3 py-1">SALE</div>
+          <!-- Column 4 -->
+          <div>
+            <h3 class="font-bold text-lg">Customer Service</h3> Card -->s="font-bold text-lg">Customer Service</h3>
+            <ul class="mt-2 space-y-1">
+              <li><a href="#" class="text-gray-700 hover:underline">Contact Us</a></li>
+              <li><a href="#" class="text-gray-700 hover:underline">FAQ</a></li>
+            </ul>
+          </div>
+        </div>
+        <h1 class="text-[#09128d] text-[60px] sm:text-[100px] md:text-[180px] lg:text-[250px] xl:text-[300px] font-bold mt-10 text-center leading-none">300px] font-bold mt-10 text-center leading-none">
+          MACELECT
+        </h1>nsplash.jpg" class="card-img-top main-img rounded" alt="Wireless Bluetooth Headset" style="height: 100%; object-fit: cover;">
+      </div>
+    </section>"card-img-top hover-img position-absolute top-0 start-0 rounded" alt="Hover Image" style="height: 100%; width: 100%; object-fit: cover;">
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>0 bottom-0 start-0 end-0 bg-gradient-to-t from-black opacity-50"></div>0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {ss="card-body text-center">istener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);class="card-title font-bold text-truncate" style="max-width: 200px;">Wireless Bluetooth Headset</h5>ams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get("id");ay-500">Shipped in 3-4 days</p>ms.get("id");
+
+        if (!productId) {
+            console.error("Product ID not found in the URL.");<button class="btn btn-outline-secondary flex-grow-1 me-2 position-relative">;
+            return;ucide="shopping-cart" class="lucide"></i>
+        }ss="btn-label">Add to Cart</span>
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/products/${productId}`);lass="lucide"></i>
+            const product = await response.json();abel">Buy Now</span>("h1").textContent = product.name;
+
+            if (document.querySelector("h1")) {
+                document.querySelector("h1").textContent = product.name || "Unknown Product";
+            }
+            if (document.querySelector(".product-category")) {
+                document.querySelector(".product-category").textContent = product.category || "Uncategorized";.textContent = `$${product.price}`;
+            }
+            if (document.querySelector(".product-price")) {
+                const price = product.price || 0; // Fallback to 0 if price is undefineds || "No details available.";
+                document.querySelector(".product-price").textContent = `$${price.toLocaleString()}`;
+            }
+            if (document.querySelector(".quick-details")) {py-10 bg-gray-100">ment.querySelector(".shipping-info").textContent = product.shippingInfo || "N/A";
+                document.querySelector(".quick-details").textContent = product.quickDetails || "No details available.";
+            }
+            if (document.querySelector(".shipping-info")) {
+                document.querySelector(".shipping-info").textContent = product.shippingInfo || "N/A";Image;
+            }
+
+            const mainImage = product.images?.[0] ? `http://localhost:5000${product.images[0]}` : "../images/default-main.jpg";
+            const hoverImage = product.images?.[1] ? `http://localhost:5000${product.images[1]}` : mainImage;p>
+            if (document.querySelector(".main-product-image")) {
+                document.querySelector(".main-product-image").src = mainImage;
+            }
+`
+            const thumbnails = document.querySelectorAll(".thumbnail");style="background-color: ${color};">${color}</button>
+            if (thumbnails[0]) thumbnails[0].src = mainImage;#" class="text-gray-700 hover:underline">Smartphones</a></li>;
+            if (thumbnails[1]) thumbnails[1].src = hoverImage;ref="#" class="text-gray-700 hover:underline">Laptops</a></li>
+ href="#" class="text-gray-700 hover:underline">TV</a></li>
+            const colorContainer = document.querySelector(".color-options");ss="text-gray-700 hover:underline">Accessories</a></li>document.querySelector(".size-dropdown");
+            if (colorContainer) {
+                colorContainer.innerHTML = (product.color || []).map(color => `
+                    <button class="px-4 py-2 border border-gray-300 text-sm" style="background-color: ${color};">${color}</button>umn 3 -->  <option value="${size}">${size}</option>
+                `).join("");).join("");
+            }3 class="font-bold text-lg">Follow Us</h3>
+<ul class="mt-2 space-y-1">tch (err) {
+            const sizeDropdown = document.querySelector(".size-dropdown");    <li><a href="#" class="text-gray-700 hover:underline">Facebook</a></li>  document.body.innerHTML = '<p class="text-danger">Failed to load product details. Please try again later.</p>';
+            if (sizeDropdown) {    <li><a href="#" class="text-gray-700 hover:underline">Twitter</a></li>  console.error("Error fetching product details:", err);
+                sizeDropdown.innerHTML = (product.size || []).map(size => `xt-gray-700 hover:underline">Instagram</a></li>
+                    <option value="${size}">${size}</option>
+                `).join("");
+            }
+        } catch (err) {   <ul class="mt-2 space-y-1">              <li><a href="#" class="text-gray-700 hover:underline">Contact Us</a></li>              <li><a href="#" class="text-gray-700 hover:underline">FAQ</a></li>            </ul>          </div>        </div>        <h1 class=" text-[#09128d] text-[60px] sm:text-[100px] md:text-[180px] lg:text-[250px] xl:text-[300px] font-bold mt-10 text-center leading-none">          MACELECT        </h1>      </div>    </section>  </footer>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>  <script>    document.addEventListener("DOMContentLoaded", async () => {        const urlParams = new URLSearchParams(window.location.search);        const productId = urlParams.get("id");        if (!productId) {            console.error("Product ID not found in the URL.");            return;        }        try {            const response = await fetch(`http://localhost:5000/api/products/${productId}`);            const product = await response.json();            if (document.querySelector("h1")) {                document.querySelector("h1").textContent = product.name;            }            if (document.querySelector(".product-category")) {                document.querySelector(".product-category").textContent = product.category;            }            if (document.querySelector(".product-price")) {                const price = product.price || 0; // Fallback to 0 if price is undefined                document.querySelector(".product-price").textContent = `$${price.toLocaleString()}`;            }            if (document.querySelector(".quick-details")) {                document.querySelector(".quick-details").textContent = product.quickDetails || "No details available.";            }            if (document.querySelector(".shipping-info")) {                document.querySelector(".shipping-info").textContent = product.shippingInfo || "N/A";            }            const mainImage = product.images?.[0] ? `http://localhost:5000${product.images[0]}` : "../images/default-main.jpg";            const hoverImage = product.images?.[1] ? `http://localhost:5000${product.images[1]}` : mainImage;            document.querySelector(".main-product-image").src = mainImage;            const thumbnails = document.querySelectorAll(".thumbnail");            if (thumbnails[0]) thumbnails[0].src = mainImage;            if (thumbnails[1]) thumbnails[1].src = hoverImage;            const colorContainer = document.querySelector(".color-options");            if (colorContainer) {                colorContainer.innerHTML = (product.color || []).map(color => `                    <button class="px-4 py-2 border border-gray-300 text-sm" style="background-color: ${color};">${color}</button>                `).join("");            }            const sizeDropdown = document.querySelector(".size-dropdown");            if (sizeDropdown) {                sizeDropdown.innerHTML = (product.size || []).map(size => `                    <option value="${size}">${size}</option>                `).join("");            }        } catch (err) {            document.body.innerHTML = '<p class="text-danger">Failed to load product details. Please try again later.</p>';            console.error("Error fetching product details:", err);        }    });  </script></body></html>            console.error("Error fetching product details:", err);            document.body.innerHTML = '<p class="text-danger">Failed to load product details. Please try again later.</p>';        }    });  </script></body></html>
