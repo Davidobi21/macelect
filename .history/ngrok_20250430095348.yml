@@ -1,0 +1,7 @@
+tunnels:
+  frontend:
+    addr: 5500
+    proto: http
+  backend:
+    addr: 5000
+    proto: http

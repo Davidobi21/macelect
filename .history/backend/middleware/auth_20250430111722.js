@@ -14,8 +14,8 @@ const authMiddleware = async (req, res, next) => {
     }
 
     // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Ensure JWT_SECRET is correct
+    const user = await User.findById(decoded.id); // Use `decoded.id` if `id` is used in the payload
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

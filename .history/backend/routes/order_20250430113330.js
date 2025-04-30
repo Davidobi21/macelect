@@ -3,32 +3,51 @@ const router = express.Router();
 const Order = require('../models/order');
 const Product = require('../models/products');
 const User = require('../models/user');
-const verifyToken = require('../middleware/verifyToken'); // Ensure this middleware is implemented and imported
+const verifyToken = require('./userRoutes'); // Middleware to verify JWT token
 
-// Create a new order
+
 router.post('/place', verifyToken, async (req, res) => {
+  const { items, shippingInfo, totalAmount } = req.body;
+  const userId = req.user._id; // Get the user from the verifyToken middleware
+
   try {
-    const userId = req.user?._id; // Ensure req.user is set by verifyToken middleware
-    if (!userId) {
-      return res.status(400).json({ message: 'User not authenticated' });
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Check if all products exist and get the price at purchase time
+    const orderItems = [];
+    for (let item of items) {
+      const product = await Product.findById(item.productId);
+      if (!product) {
+        return res.status(404).json({ message: `Product with ID ${item.productId} not found` });
+      }
+      orderItems.push({
+        productId: item.productId,
+        quantity: item.quantity,
+        priceAtPurchase: product.price,
+      });
     }
 
-    const { items, shippingInfo, totalAmount } = req.body;
-
+    // Create the order
     const newOrder = new Order({
       userId,
-      items,
+      items: orderItems,
       shippingInfo,
       totalAmount,
+      status: 'Pending',
     });
 
     await newOrder.save();
-    res.status(201).json({ message: 'Order created successfully', order: newOrder });
+    res.status(201).json({ message: "Order placed successfully", order: newOrder });
+
   } catch (error) {
-    console.error('Error creating order:', error);
-    res.status(500).json({ message: 'Something went wrong' });
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong", error });
   }
 });
+
+// The same applies for other routes...
+
 
 // Get all orders for a user (with authentication)
 router.get('/user', verifyToken, async (req, res) => {

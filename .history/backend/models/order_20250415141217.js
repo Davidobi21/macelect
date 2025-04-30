@@ -24,21 +24,12 @@ const orderSchema = new mongoose.Schema({
   },
   items: [orderItemSchema],
   shippingInfo: {
-    type: String,
+    type: String, // You can adjust it later if you want detailed info
     default: "Not provided",
   },
   totalAmount: {
     type: Number,
     required: true,
-  },
-  paymentStatus: {
-    type: String,
-    enum: ['Pending', 'Paid'],
-    default: 'Pending'
-  },
-  paymentReference: {
-    type: String,
-    default: null
   },
   status: {
     type: String,

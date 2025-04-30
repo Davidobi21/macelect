@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
-// Middleware to verify JWT token
+// Middleware to verify JWT token ;
+
 const verifyToken = async (req, res, next) => {
   const token = req.headers['authorization']?.split(' ')[1];
   if (!token) {
@@ -19,7 +20,7 @@ const verifyToken = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    req.user = user;  // Attach the user object to the request object
+    req.user = user;  // Attach the user info to the request object
     next();
   } catch (error) {
     console.error(error);
@@ -27,10 +28,14 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
+
+
 // ✅ Protected: Get user info
 router.get("/", verifyToken, async (req, res) => {
   try {
-    const user = req.user; // Directly using the user object set in the verifyToken middleware
+    const user = await User.findById(req.user.userId).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
+
     res.status(200).json({
       user: {
         id: user._id,
@@ -48,7 +53,8 @@ router.get("/", verifyToken, async (req, res) => {
 router.put("/update", verifyToken, async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const user = req.user; // Using the user object
+    const user = await User.findById(req.user.userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
 
     if (name) user.name = name;
     if (email) user.email = email;
@@ -76,9 +82,10 @@ router.put("/update", verifyToken, async (req, res) => {
 // ✅ Delete user
 router.delete("/delete", verifyToken, async (req, res) => {
   try {
-    const user = req.user; // Using the user object
+    const user = await User.findById(req.user.userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    await User.deleteOne({ _id: user._id });
+    await User.deleteOne({ _id: req.user.userId });
 
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
@@ -86,6 +93,7 @@ router.delete("/delete", verifyToken, async (req, res) => {
     res.status(500).json({ message: error.message || "Something went wrong" });
   }
 });
+
 
 // ✅ Logout
 router.post("/logout", (req, res) => {

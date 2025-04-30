@@ -6,7 +6,7 @@ const User = require('../models/user');
 const verifyToken = require('../middleware/verifyToken'); // Ensure this middleware is implemented and imported
 
 // Create a new order
-router.post('/place', verifyToken, async (req, res) => {
+router.post('/create', verifyToken, async (req, res) => {
   try {
     const userId = req.user?._id; // Ensure req.user is set by verifyToken middleware
     if (!userId) {

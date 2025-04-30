@@ -6,8 +6,6 @@
   <title>Checkout</title>
   <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="./js/checkout.js" defer></script>
-  <script src="https://js.paystack.co/v1/inline.js"></script>
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -78,50 +76,20 @@
               <div class="col-md-5">
                 <label for="country" class="form-label">Country</label>
                 <select class="form-select" id="country" required>
-                  <option value="Nigeria" selected>Nigeria</option>
+                  <option value="">Choose...</option>
+                  <option value="Nigeria">Nigeria</option>
+                  <option value="United States">United States</option>
                 </select>
               </div>
-              
+
               <div class="col-md-4">
                 <label for="state" class="form-label">State</label>
                 <select class="form-select" id="state" required>
-                  <option value="Abuja">Abuja</option>
-                  <option value="Nasarawa">Nasarawa</option>
-                  <option value="Kogi">Kogi</option>
-                  <option value="Kaduna">Kaduna</option>
-                  <option value="Niger">Niger</option>
-                  <option value="Benue">Benue</option>
-                  <option value="Kwara">Kwara</option>
-                  <option value="Plateau">Plateau</option>
-                  <option value="Taraba">Taraba</option>
+                  <option value="">Choose...</option>
                   <option value="Lagos">Lagos</option>
-                  <option value="Oyo">Oyo</option>
-                  <option value="Ondo">Ondo</option>
-                  <option value="Edo">Edo</option>
-                  <option value="Delta">Delta</option>
-                  <option value="Anambra">Anambra</option>
-                  <option value="Enugu">Enugu</option>
-                  <option value="Imo">Imo</option>
-                  <option value="Rivers">Rivers</option>
-                  <option value="Akwa Ibom">Akwa Ibom</option>
-                  <option value="Bayelsa">Bayelsa</option>
-                  <option value="Borno">Borno</option>
-                  <option value="Yobe">Yobe</option>
-                  <option value="Zamfara">Zamfara</option>
-                  <option value="Sokoto">Sokoto</option>
-                  <option value="Kebbi">Kebbi</option>
-                  <option value="Kano">Kano</option>
-                  <option value="Jigawa">Jigawa</option>
-                  <option value="Gombe">Gombe</option>
-                  <option value="Bauchi">Bauchi</option>
-                  <option value="Ekiti">Ekiti</option>
-                  <option value="Osun">Osun</option>
-                  <option value="Ebonyi">Ebonyi</option>
-                  <option value="Abia">Abia</option>
-                  <option value="Cross River">Cross River</option>
+                  <option value="California">California</option>
                 </select>
               </div>
-              
 
             <hr class="my-4">
 
@@ -137,12 +105,9 @@
 
             <hr class="my-4">
 
-            <button class="btn btn-primary w-100" id="checkoutButton" disabled>
-                Proceed to Checkout 
-                <span id="padlockWrapper" class="ms-2">
-                  <i id="padlockIcon" data-lucide="lock"></i>
-                </span>
-              </button>              
+            <button id="checkoutButton" class="w-100 btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2" type="submit" disabled>
+              <i id="padlockIcon" data-lucide="lock"></i> Checkout
+            </button>
           </form>
         </div>
       </div>
