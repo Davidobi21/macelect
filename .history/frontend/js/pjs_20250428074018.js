@@ -112,15 +112,15 @@ document.addEventListener("DOMContentLoaded", async function () {
       priceValue.textContent = this.value;
       filterProducts();
     });
-    
+
     searchInput.addEventListener("input", filterProducts);
   }
-  
+
   function attachCardClickListeners() {
     productCards.forEach(card => {
       card.addEventListener("click", (e) => {
         if (e.target.closest('button')) return; // if clicking button, don't open product page
-        
+
         const productId = card.dataset.id;
         if (productId) {
           window.location.href = `./productpage.html?id=${encodeURIComponent(productId)}`;
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
   }
-  
+
   try {
     const response = await fetch('http://localhost:5000/api/products');
     const products = await response.json();
@@ -196,13 +196,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.error('Error fetching products:', err);
     productContainer.innerHTML = '<p class="text-danger">Failed to load products. Please try again later.</p>';
   }
-  
-  
   const button = document.createElement('button');
   button.innerHTML = `<i data-lucide="shopping-cart" class="lucide w-4 h-4"></i><span>Add</span>`;
   button.className = "btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-1";
   button.onclick = () => addToCart(product._id, product.name, product.price, mainImage);
   
   document.querySelector('.addToCartButton').appendChild(button);
+  
+  
 });
 

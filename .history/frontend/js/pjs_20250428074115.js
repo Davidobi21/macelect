@@ -130,6 +130,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
   }
+  const button = document.createElement('button');
+  button.innerHTML = `<i data-lucide="shopping-cart" class="lucide w-4 h-4"></i><span>Add</span>`;
+  button.className = "btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-1";
+  button.onclick = () => addToCart(product._id, product.name, product.price, mainImage);
+  
+  document.querySelector('.addToCartButton').appendChild(button);
   
   try {
     const response = await fetch('http://localhost:5000/api/products');
@@ -198,11 +204,5 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
   
   
-  const button = document.createElement('button');
-  button.innerHTML = `<i data-lucide="shopping-cart" class="lucide w-4 h-4"></i><span>Add</span>`;
-  button.className = "btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-1";
-  button.onclick = () => addToCart(product._id, product.name, product.price, mainImage);
-  
-  document.querySelector('.addToCartButton').appendChild(button);
 });
 
