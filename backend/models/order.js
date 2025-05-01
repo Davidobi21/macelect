@@ -9,6 +9,7 @@ const orderItemSchema = new mongoose.Schema({
   quantity: {
     type: Number,
     required: true,
+    default: 1,
   },
   priceAtPurchase: {
     type: Number,
@@ -42,7 +43,7 @@ const orderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Pending', 'Processing', 'Shipped', 'Delivered'],
+    enum: ['Pending', 'Completed', 'Cancelled'],
     default: 'Pending',
   },
   history: [{

@@ -1,6 +1,6 @@
 // filepath: backend/server.js
+require('dotenv').config(); // Ensure this is at the top of the file
 const express = require('express');
-const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -17,9 +17,6 @@ const sendOtpRoutes = require('./routes/sendOtp');
 const userRoutes = require('./routes/userRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
 const uploadRoutes = require("./routes/upload");
-
-// Load environment variables
-dotenv.config();
 
 // Connect to the database
 connectDB();
@@ -51,7 +48,6 @@ app.use("/upload", uploadRoutes);
 // Static files
 app.use('/uploads/', express.static(uploadsPath));
 
-
 // Routes
 
 app.get('/', (req, res) => {
@@ -62,6 +58,11 @@ app.get('/', (req, res) => {
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send({ message: 'Something went wrong!' });
+});
+
+// Serve 404.html for unmatched routes
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '../frontend/pages/404.html'));
 });
 
 const PORT = process.env.PORT || 5000;

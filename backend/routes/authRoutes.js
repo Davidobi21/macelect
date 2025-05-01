@@ -82,11 +82,13 @@ router.post("/login", async (req, res) => {
 
     otpStore[email] = { otp, expires, userId: user._id };
 
-    // ➡️ Generate JWT token here
-    const token = jwt.sign({ _id: user._id }, "your-secret-key", { expiresIn: "1h" });
+    // Debug log for JWT_SECRET during token generation
+    console.log('JWT_SECRET during token generation:', process.env.JWT_SECRET);
 
+    // Generate JWT token here
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    // ➡️ Send user + token back
+    // Send user + token back
     res.status(200).json({
       message: "OTP sent to email",
       user: {
@@ -117,8 +119,6 @@ router.post("/verify-login-otp", async (req, res) => {
     if (!user) return res.status(400).json({ message: "User not found" });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-    localStorage.setItem("token", data.token);
-
 
     // Clear OTP
     delete otpStore[email];

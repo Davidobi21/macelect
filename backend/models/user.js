@@ -14,13 +14,12 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  wishlist: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product"
+  }]
 });
-
-wishlist: [{
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "Product"
-}]
 
 // Hash the password before saving the user
 userSchema.pre('save', async function (next) {

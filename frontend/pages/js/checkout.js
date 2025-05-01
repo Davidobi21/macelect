@@ -137,36 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ref: 'Mactelect' + Math.floor(Math.random() * 1000000000 + 1),
   
       callback: function (response) {
-        (async () => {
-          try {
-            const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:5000/api/order/place', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
-              },
-              body: JSON.stringify({
-                items,
-                shippingInfo,
-                totalAmount,
-                paymentStatus: 'Paid'
-              })
-            });
-      
-            const data = await res.json();
-            if (res.ok) {
-              alert("Order placed! Ref: " + response.reference);
-              localStorage.removeItem("cart");
-              window.location.href = "/thank-you.html";
-            } else {
-              alert("Order failed to save: " + data.message);
-            }
-          } catch (err) {
-            console.error(err);
-            alert("Error completing order.");
-          }
-        })();
+        placeOrder(response.reference, shippingInfo, items, totalAmount);
       },
       
   
@@ -178,8 +149,49 @@ document.addEventListener("DOMContentLoaded", () => {
     handler.openIframe();
   }
   
-
+  async function placeOrder(paymentReference, shippingInfo, items, totalAmount) {
+    try {
+      // Retrieve user object from localStorage
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user || !user._id) {
+        alert('User ID is missing. Please log in.');
+        return; // Stop execution if userId is missing
+      }
   
+      const userId = user._id; // Extract userId from the user object
+  
+      const response = await fetch('http://localhost:5000/api/order/place', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId, // Include userId in the request payload
+          items: items.map(item => ({
+            productId: item.id,
+            quantity: item.quantity,
+            priceAtPurchase: item.price
+          })),
+          shippingInfo: `${shippingInfo.address}, ${shippingInfo.state}, ${shippingInfo.country}`,
+          totalAmount,
+          paymentReference
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+      }
+  
+      const data = await response.json();
+      alert("Order placed! Ref: " + paymentReference);
+      localStorage.removeItem("cart");
+      window.location.href = "./thank-you.html"; // Redirect to thank you page
+    } catch (error) {
+      console.error('Error placing order:', error);
+      alert(error.message); // Display error message to the user
+    }
+  }
+  
+
   
   formInputs.forEach(input => {
     input.addEventListener("input", validateCheckoutButton);

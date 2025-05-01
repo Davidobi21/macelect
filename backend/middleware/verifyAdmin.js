@@ -11,7 +11,8 @@ const verifyAdmin = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || 'david'; // Ensure the secret matches the one used during token signing
+    const decoded = jwt.verify(token, secret); // Use the correct secret
     console.log('Decoded Token:', decoded);
 
     const user = await Admin.findById(decoded.id);
