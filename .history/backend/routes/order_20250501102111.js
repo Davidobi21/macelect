@@ -4,7 +4,7 @@ const router = express.Router();
 const Order = require('../models/order');
 const Product = require('../models/products');
 const User = require('../models/user');
-const verifyAdmin = require('../middleware/verifyAdmin');
+const authMiddleware = require('../middleware/verifyToken');
 
 // Place an order
 router.post('/place', async (req, res) => {
@@ -55,7 +55,7 @@ router.get('/user', async (req, res) => {
   }
 });
 
-router.get('/admin', verifyAdmin, async (req, res) => {
+router.get('/admin/orders', verifyToken, async (req, res) => {
   try {
     const admin = req.user; // Assuming `req.user` contains the authenticated admin's details
 

@@ -4,7 +4,6 @@ const router = express.Router();
 const Order = require('../models/order');
 const Product = require('../models/products');
 const User = require('../models/user');
-const verifyAdmin = require('../middleware/verifyAdmin');
 
 // Place an order
 router.post('/place', async (req, res) => {
@@ -55,32 +54,6 @@ router.get('/user', async (req, res) => {
   }
 });
 
-router.get('/admin', verifyAdmin, async (req, res) => {
-  try {
-    const admin = req.user; // Assuming `req.user` contains the authenticated admin's details
-
-    // Validate admin's ObjectId
-    if (!mongoose.Types.ObjectId.isValid(admin._id)) {
-      return res.status(400).json({ error: 'Invalid admin ID' });
-    }
-
-    // Query orders associated with the admin
-    const orders = await Order.find({ adminId: admin._id }); // Ensure `adminId` is used correctly
-    res.status(200).json({ orders });
-  } catch (error) {
-    console.error(error);
-
-    // Handle specific CastError for better debugging
-    if (error.name === 'CastError') {
-      return res.status(400).json({
-        message: 'Invalid ObjectId format',
-        error: error.message,
-      });
-    }
-
-    res.status(500).json({ error: 'Failed to fetch orders' });
-  }
-});
 // Get a specific order by ID
 router.get('/:orderId', async (req, res) => {
   const { orderId } = req.params;
@@ -127,5 +100,22 @@ router.put('/:orderId/status', async (req, res) => {
 });
 
 // Admin - Get all orders
+router.get('/admin', async (req, res) => {
+  try {
+    const admin = req.user; // Assuming `req.user` contains the authenticated admin's details
+
+    // Validate admin's ObjectId
+    if (!mongoose.Types.ObjectId.isValid(admin._id)) {
+      return res.status(400).json({ error: 'Invalid admin ID' });
+    }
+
+    // Query orders associated with the admin
+    const orders = await Order.find({ adminId: admin._id.toString() }); // Ensure `adminId` is used correctly
+    res.status(200).json({ orders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch orders' });
+  }
+});
 
 module.exports = router;

@@ -440,7 +440,7 @@
   }
 
   function fetchAndDisplayOrders() {
-    fetch("http://localhost:5000/api/order/admin", {
+    fetch("http://localhost:5000/api/order/admin/orders", {
       headers: { Authorization: "Bearer " + token }
     })
       .then(res => res.json())
