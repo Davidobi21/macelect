@@ -50,7 +50,17 @@
           <i data-lucide="shopping-cart" class="w-6 h-6"></i>
           <span class="cart-count absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
         </button>        
-        <button><i data-lucide="user" class="w-6 h-6"></i></button>
+        <div class="relative">
+          <button id="userProfileButton" class="relative">
+            <i data-lucide="user" class="w-6 h-6"></i>
+          </button>
+          <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg hidden">
+            <a href="./profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+            <a href="./order-history.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Order History</a>
+            <a href="./wishlist.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Wishlist</a>
+            <button id="logoutButton" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -65,7 +75,6 @@
         <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="phones">Phones</button>
         <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="laptops">Laptops</button>
         <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="audio devices">Audio Devices</button>
-        <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="cameras">Cameras</button>
         <button class="filter-btn text-sm border px-4 py-2 rounded" data-category="accessories">Accessories</button>
       </div>
     </div>
@@ -82,13 +91,12 @@
           <li><input type="checkbox" class="category-checkbox" value="laptops"> Laptops</li>
           <li><input type="checkbox" class="category-checkbox" value="audio devices"> Audio Devices</li>
           <li><input type="checkbox" class="category-checkbox" value="accessories"> Accessories</li>
-          <li><input type="checkbox" class="category-checkbox" value="cameras"> Cameras</li>
         </ul>
       </div>
       <div>
         <h4 class="text-sm font-medium mb-2">Price Range</h4>
         <input type="range" id="priceSlider" min="0" max="1000" value="1000" class="w-full">
-        <span class="text-sm block mt-1">Max: $<span id="priceValue">1000</span></span>
+        <span class="text-sm block mt-1">Max: ₦<span id="priceValue">1000</span></span>
       </div>
     </aside>
   
@@ -116,7 +124,31 @@
       <span class="font-semibold">Total:</span>
       <span id="cartTotal" class="font-bold text-lg">₦0</span>
     </div>
-    <a href="./checkout.html" class="block text-center bg-black text-white py-2 rounded hover:bg-gray-800">Checkout</a>
+    <a id="checkoutButton" href="#" class="block text-center bg-black text-white py-2 rounded hover:bg-gray-800">Checkout</a>
+    <script>
+      document.getElementById("checkoutButton").addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent default navigation
+        const token = localStorage.getItem("token");
+        if (!token) {
+          Swal.fire({
+            icon: "warning",
+            title: "Hey, there chief!",
+            text: "We dont know who you are yet, you must be logged in to proceed to checkout.",
+            showCancelButton: true,
+            confirmButtonText: "Login",
+            cancelButtonText: "Sign Up",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = "./login.html"; // Redirect to login page
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              window.location.href = "./signup.html"; // Redirect to sign-up page
+            }
+          });
+        } else {
+          window.location.href = "./checkout.html"; // Proceed to checkout if logged in
+        }
+      });
+    </script>
   </div>
 </div>
 
