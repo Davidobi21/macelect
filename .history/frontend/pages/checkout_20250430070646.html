@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container">
+    <!-- Back Button -->
+    <div class="py-3">
+      <a href="../pages/products.html" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left"></i> Back to Store
+      </a>
+    </div>
+
+    <main>
+      <div class="py-5 text-center">
+        <h2>Checkout</h2>
+        <p class="lead">You're one step closer to getting the device of dreams just Complete your purchase by filling out the form below.</p>
+      </div>
+
+      <div class="row g-5">
+        <!-- Cart Summary -->
+        <div class="col-md-5 col-lg-4 order-md-last">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-primary">Your cart</span>
+            <span class="badge bg-primary rounded-pill cart-count">0</span>
+          </h4>
+          <ul class="list-group mb-3" id="cart-summary">
+            <!-- Cart items will be dynamically populated here -->
+          </ul>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Shipping</span>
+            <strong id="shipping-cost">₦0</strong>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span class="fs-5 fw-bold">Total</span>
+            <strong id="cart-total" class="fs-4 fw-bold text-primary">₦0</strong>
+          </li>
+        </div>
+
+        <!-- Billing Form -->
+        <div class="col-md-7 col-lg-8">
+          <h4 class="mb-3">Shipping address</h4>
+          <form>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label for="firstName" class="form-label">First name</label>
+                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+              </div>
+
+              <div class="col-sm-6">
+                <label for="lastName" class="form-label">Last name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+              </div>
+
+              <div class="col-12">
+                <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+                <input type="email" class="form-control" id="email" placeholder="you@example.com">
+              </div>
+
+              <div class="col-12">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+              </div>
+
+              <div class="col-12">
+                <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+              </div>
+
+              <div class="col-md-5">
+                <label for="country" class="form-label">Country</label>
+                <select class="form-select" id="country" required>
+                  <option value="">Choose...</option>
+                  <option value="Nigeria">Nigeria</option>
+                  <option value="United States">United States</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="state" class="form-label">State</label>
+                <select class="form-select" id="state" required>
+                  <option value="">Choose...</option>
+                  <option value="Lagos">Lagos</option>
+                  <option value="California">California</option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label for="zip" class="form-label">Zip</label>
+                <input type="text" class="form-control" id="zip" placeholder="" required>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="same-address">
+              <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
+            </div>
+
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="save-info">
+              <label class="form-check-label" for="save-info">Save this information for next time</label>
+            </div>
+
+            <hr class="my-4">
+
+            <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+      <p class="mb-1">© 2025 Macelect</p>
+      <ul class="list-inline">
+        <li class="list-inline-item"><a href="../pages/fqa.html">Privacy</a></li>
+        <li class="list-inline-item"><a href="../pages/fqa.html">Terms</a></li>
+        <li class="list-inline-item"><a href="../pages/fqa.html">Support</a></li>
+      </ul>
+    </footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cartSummary = document.getElementById("cart-summary");
+      const cartTotal = document.getElementById("cart-total");
+      const shippingCostElement = document.getElementById("shipping-cost");
+      const cartCount = document.querySelector(".cart-count");
+      const countrySelect = document.getElementById("country");
+      const stateSelect = document.getElementById("state");
+
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let total = 0;
+
+      function calculateShippingCost(country, state) {
+        if (country === "Nigeria") {
+          if (state === "Lagos") return 500; // Example shipping cost for Lagos
+          return 1000; // Example shipping cost for other states in Nigeria
+        } else if (country === "United States") {
+          return 5000; // Example shipping cost for the US
+        }
+        return 0; // Default shipping cost
+      }
+
+      function updateCartSummary() {
+        cartSummary.innerHTML = ""; // Clear existing content
+        total = 0;
+
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+
+          const listItem = document.createElement("li");
+          listItem.className = "list-group-item d-flex justify-content-between lh-sm";
+          listItem.innerHTML = `
+            <div>
+              <h6 class="my-0">${item.name}</h6>
+              <small class="text-muted">Quantity: ${item.quantity}</small>
+            </div>
+            <span class="text-muted">₦${itemTotal.toLocaleString()}</span>
+          `;
+          cartSummary.appendChild(listItem);
+        });
+
+        const country = countrySelect.value;
+        const state = stateSelect.value;
+        const shippingCost = calculateShippingCost(country, state);
+
+        shippingCostElement.textContent = `₦${shippingCost.toLocaleString()}`;
+        cartTotal.textContent = `₦${(total + shippingCost).toLocaleString()}`;
+        cartCount.textContent = cart.reduce((count, item) => count + item.quantity, 0);
+      }
+
+      countrySelect.addEventListener("change", updateCartSummary);
+      stateSelect.addEventListener("change", updateCartSummary);
+
+      updateCartSummary(); // Initial update
+    });
+  </script>
+</body>
+</html>

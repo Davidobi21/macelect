@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+
+    /* Custom modal styling for full width but with spacing */
+.modal-dialog {
+  max-width: 90%;  /* Limit the width of the modal */
+  margin: 30px auto;  /* Center the modal with some top margin */
+}
+
+/* Responsive settings */
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 80%;  /* For medium screens, use a wider modal */
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-dialog {
+    max-width: 70%;  /* For large screens, make the modal even smaller */
+  }
+}
+
+/* Style modal content for padding and spacing */
+.modal-content {
+  padding: 20px;  /* Add padding inside the modal */
+  border-radius: 8px;  /* Rounded corners */
+}
+
+.modal-header, .modal-footer {
+  border: none;  /* Remove default borders */
+  padding: 10px 20px;  /* Add some padding to header/footer */
+}
+
+.modal-body {
+  padding: 20px;  /* Add space inside modal body */
+  overflow-y: auto;  /* Ensure content scrolls if too much content */
+}
+
+    .sticky-sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .hidden { display: none; }
+    .active-sidebar {
+      background-color: #4f46e5 !important;
+      color: white !important;
+    }
+    .hover-bg:hover { background-color: #363636; }
+    .dashboard-widget {
+      background-color: #f3f4f6;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .recent-orders, .products-section .overflow-x-auto {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="flex">
+    <!-- Sidebar -->
+    <div class="sticky-sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg" style="width:280px;">
+      <a href="#" class="d-flex align-items-center mb-3 text-white text-decoration-none">
+        <i class="bi bi-speedometer2 fs-3 me-2"></i><span class="fs-4 fw-bold">Admin Panel</span>
+      </a>
+      <hr class="border-gray-700">
+      <ul class="nav nav-pills flex-column mb-auto" id="sidebar-menu">
+        <li class="nav-item">
+          <a href="#" onclick="showSection('main-dashboard', this)" class="nav-link text-white hover-bg active-sidebar">
+            <i class="bi bi-house-door me-2"></i> Home
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showSection('orders-section', this)" class="nav-link text-white hover-bg">
+            <i class="bi bi-card-list me-2"></i> Orders
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showSection('products-section', this)" class="nav-link text-white hover-bg">
+            <i class="bi bi-box-seam me-2"></i> Products
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showSection('customers-section', this)" class="nav-link text-white hover-bg">
+            <i class="bi bi-people me-2"></i> Customers
+          </a>
+        </li>
+      </ul>
+      <hr class="border-gray-700">
+      <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown">
+          <img src="https://i.pravatar.cc/32" class="rounded-circle me-2" alt="admin avatar" width="32" height="32">
+          <strong id="admin-email">admin</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" id="logout-btn">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6 md:p-10">
+      <!-- Dashboard Section -->
+      <div id="main-dashboard">
+        <h2 class="text-3xl font-bold mb-2">Welcome Back, <span id="admin-email-header">Admin</span>!</h2>
+        <p class="text-gray-600 mb-6">Here's what's happening with your store today:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="dashboard-widget">
+            <h3 class="text-sm font-medium text-orange-700">Total Products</h3>
+            <p class="text-3xl font-semibold"><span id="product-count">0</span></p>
+          </div>
+          <div class="dashboard-widget">
+            <h3 class="text-sm font-medium text-red-700">Total Orders</h3>
+            <p class="text-3xl font-semibold" id="order-count">0</p>
+          </div>
+          <div class="dashboard-widget">
+            <h3 class="text-sm font-medium text-blue-700">Total Users</h3>
+            <p class="text-3xl font-semibold" id="user-count">0</p>
+          </div>
+          <div class="dashboard-widget">
+            <h3 class="text-sm font-medium text-green-700">Revenue</h3>
+            <p class="text-3xl font-semibold" id="revenue-count">₦000</p>
+          </div>
+        </div>
+        <div class="mb-6">
+          <canvas id="summaryChart" class="w-full h-64"></canvas>
+        </div>
+        <!-- Recent Orders -->
+        <div class="recent-orders mb-6">
+          <h3 class="text-xl font-semibold mb-4">Recent Orders</h3>
+          <div class="overflow-x-auto">
+            <table class="table-auto w-full text-sm">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="px-4 py-2">Order ID</th>
+                  <th class="px-4 py-2">Customer</th>
+                  <th class="px-4 py-2">Product</th>
+                  <th class="px-4 py-2">Date</th>
+                  <th class="px-4 py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody id="all-orders-table">
+                <tr><td colspan="5" class="text-center py-4 text-gray-500">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Section -->
+      <div id="products-section" class="hidden">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-semibold">Products List</h3>
+          <div class="flex gap-2">
+            <button class="px-4 py-2 text-sm border rounded-md text-gray-600 hover:bg-gray-100">Filter</button>
+            <button class="px-4 py-2 text-sm border rounded-md text-gray-600 hover:bg-gray-100">See All</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+              Add New Product
+            </button>            
+            
+          </div>
+        </div>
+        <div class="overflow-x-auto bg-white rounded-lg shadow-md p-4">
+          <table class="table-auto w-full text-sm">
+            <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+              <tr>
+                <th class="px-4 py-2"><input type="checkbox"/></th>
+                <th class="px-4 py-2 text-left">Product Name</th>
+                <th class="px-4 py-2 text-left">Category</th>
+                <th class="px-4 py-2">Price</th>
+                <th class="px-4 py-2">Stock</th>
+                <th class="px-4 py-2">Status</th>
+                <th class="px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-table">
+              <tr class="text-center text-gray-500">
+                <td colspan="7" class="py-6">Loading products...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Orders Section -->
+      <div id="orders-section" class="hidden">
+        <h3 class="text-xl font-semibold mb-4">All Orders</h3>
+        <div class="overflow-x-auto">
+          <table class="table-auto w-full text-sm">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="px-4 py-2">Order ID</th>
+                <th class="px-4 py-2">Customer</th>
+                <th class="px-4 py-2">Product</th>
+                <th class="px-4 py-2">Date</th>
+                <th class="px-4 py-2">Status</th>
+              </tr>
+            </thead>
+            <tbody id="all-orders-table">
+              <tr><td colspan="5" class="text-center py-4 text-gray-500">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Customers Section Placeholder -->
+      <div id="customers-section" class="hidden">
+        <h3 class="text-xl font-semibold mb-4">Customers</h3>
+        <p class="text-gray-600">Coming soon…</p>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productModalLabel">Add New Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="productForm">
+        <div class="modal-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="productName" class="form-label">Product Name</label>
+              <input type="text" class="form-control" id="productName" required>
+            </div>
+            <div class="col-md-6">
+              <label for="productPrice" class="form-label">Price (₦)</label>
+              <input type="number" class="form-control" id="productPrice" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="productDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="productDescription" rows="4" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="productQuickDetails" class="form-label">Quick Details</label>
+            <input type="text" class="form-control" id="productQuickDetails" required>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="productColor" class="form-label">Color</label>
+              <input type="text" class="form-control" id="productColor" placeholder="Comma separated values" required>
+            </div>
+            <div class="col-md-6">
+              <label for="productSize" class="form-label">Size</label>
+              <input type="text" class="form-control" id="productSize" placeholder="Comma separated values" required>
+            </div>
+          </div>
+
+          <label for="category">Category:</label>
+<select id="productCategory" required>
+  <option value="">Select Category</option>
+  <option value="Audio">Audio</option>
+  <option value="Phones">Phones</option>
+  <option value="Laptops">Laptops</option>
+  <option value="Accessories">Accessories</option>
+  <!-- Add more as needed -->
+</select>
+
+
+          <div class="mb-3">
+            <label for="productShippingInfo" class="form-label">Shipping Info</label>
+            <input type="text" class="form-control" id="productShippingInfo" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="productImages" class="form-label">Upload Images</label>
+            <input type="file" class="form-control" id="productImages" multiple accept="image/*" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="productTechSpec" class="form-label">Tech Specifications (Feature-Detail)</label>
+            <div id="techSpecContainer">
+              <div class="d-flex mb-2">
+                <input type="text" class="form-control me-2" placeholder="Feature" id="techSpecFeature" required>
+                <input type="text" class="form-control" placeholder="Detail" id="techSpecDetail" required>
+                <button type="button" class="btn btn-success ms-2" id="addTechSpecBtn">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="loading-spinner" style="display: none;" class="text-center text-blue-500 mt-4">
+  Uploading... Please wait.
+</div>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const token = localStorage.getItem('adminToken');
+  const email = localStorage.getItem('adminEmail');
+
+  if (email) {
+    document.getElementById('admin-email').textContent = email;
+    document.getElementById('admin-email-header').textContent = email;
+  }
+
+  if (!token) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Unauthorized',
+      text: 'Please log in as an admin.'
+    }).then(() => {
+      window.location.href = './admin-login.html';
+    });
+  }
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    localStorage.clear();
+    window.location.href = './admin-login.html';
+  });
+
+  // Fetch Dashboard Stats
+  fetch('http://localhost:5000/admin/dashboard', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+    .then(r => r.json())
+    .then(data => {
+      const stats = data.data;
+      document.getElementById('product-count').textContent = stats.totalProducts;
+      document.getElementById('order-count').textContent = stats.totalOrders;
+      document.getElementById('user-count').textContent = stats.totalUsers;
+      // Updated the revenue count logic to handle undefined values
+      const revenue = stats.revenue || 0;
+      document.getElementById('revenue-count').textContent = `₦${revenue.toLocaleString()}`;
+      // Orders
+      const ordersHTML = (stats.recentOrders || []).length
+        ? stats.recentOrders.map(o => `
+          <tr class="border-b">
+            <td class="px-4 py-2">${o.orderId}</td>
+            <td class="px-4 py-2">${o.customer}</td>
+            <td class="px-4 py-2">${o.product}</td>
+            <td class="px-4 py-2">${o.date}</td>
+            <td class="px-4 py-2">
+              <span class="px-2 py-1 rounded-full text-white text-xs bg-${o.status === 'Pending' ? 'yellow' : o.status === 'Shipped' ? 'green' : 'red'}-500">${o.status}</span>
+            </td>
+          </tr>`).join('')
+        : `<tr><td colspan="5" class="text-center py-4 text-gray-500">No recent orders found.</td></tr>`;
+      document.getElementById('all-orders-table').innerHTML = ordersHTML;
+      // Chart
+      const ctx = document.getElementById('summaryChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: data.data.chart || { labels: [], datasets: [] },
+        options: { responsive: true, plugins: { legend: { display: true } }, scales: { y: { beginAtZero: true } } }
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      Swal.fire('Error', 'Failed to load dashboard data.', 'error');
+    });
+    function showSection(sectionId, el) {
+      console.log(`Switching to section: ${sectionId}`); // Log the section being switched to
+      document.querySelectorAll('#sidebar-menu .nav-link').forEach(l => l.classList.remove('active-sidebar'));
+    el.classList.add('active-sidebar');
+    document.querySelectorAll('.flex-1 > div').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(sectionId).classList.remove('hidden');
+    if (sectionId === 'products-section') {
+      fetchAndDisplayProducts();
+    }
+    if (sectionId === 'orders-section') {
+      console.log('Fetching and displaying orders...'); // Log when fetching orders
+      fetchAndDisplayOrders();
+    }
+  }   
+// Added detailed logging to debug data mapping and rendering issues in the `fetchAndDisplayProducts` function.
+function fetchAndDisplayProducts() {
+  fetch("http://localhost:5000/api/products/all", {
+    headers: { Authorization: "Bearer " + token }
+  }).then(res => res.json())
+    .then(data => {
+      console.log("Full Response from API:", data); // Log the full response for debugging
+
+      // Access the products array correctly
+      const products = Array.isArray(data) ? data : data.products || []; // Adjust based on actual response structure
+      if (!Array.isArray(products)) {
+        console.error("Products data is not an array:", products);
+        return Swal.fire("Error", "Invalid products data received from the API.", "error");
+      }
+
+      console.log("Products Array:", products); // Log the products array
+
+      // Update Products Table
+      const productsTable = document.getElementById("products-table");
+      if (products.length > 0) {
+        productsTable.innerHTML = products.map(product => {
+          const img = product.images?.[0] ? `http://localhost:5000${product.images[0]}` : '';
+          const name = product.name || "Unnamed";
+          const category = product.category || "Uncategorized";
+          const price = `₦${(product.price || 0).toLocaleString()}`;
+          const stock = product.stock === 0 ? "Out of Stock" : "In Stock";
+          const status = product.status || "Live";
+
+          return `
+            <tr class="border-b hover:bg-gray-50">
+              <td class="px-4 py-2"><input type="checkbox"/></td>
+              <td class="px-4 py-2 flex items-center gap-2">
+                ${img ? `<img src="${img}" class="w-10 h-10 rounded object-cover" alt="">` : ''}
+                <span>${name}</span>
+              </td>
+              <td class="px-4 py-2">${category}</td>
+              <td class="px-4 py-2 text-center">${price}</td>
+              <td class="px-4 py-2 text-center">${stock}</td>
+              <td class="px-4 py-2 text-center">
+                <span class="px-2 py-1 rounded-full text-xs text-blue-700 bg-blue-100">${status}</span>
+              </td>
+              <td class="px-4 py-2 text-center">
+                <button onclick="deleteProduct('${product._id}')" class="text-red-500 hover:underline">Delete</button>
+              </td>
+            </tr>`;
+        }).join('');
+      } else {
+        productsTable.innerHTML = `<tr class="text-center text-gray-500"><td colspan="7" class="py-6">No products available.</td></tr>`;
+      }
+    })
+    .catch(err => {
+      console.error("Error fetching products:", err);
+      Swal.fire("Error", "Failed to load products.", "error");
+    });
+}
+          
+  function fetchAndDisplayOrders() {
+    fetch("http://localhost:5000/api/order/admin", {
+      headers: { Authorization: "Bearer " + token }
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("Full Response from API:", data); // Log the full response for debugging
+
+        // Update Recent Orders Table
+        const recentOrdersBody = document.getElementById("all-orders-table");
+        const recentOrders = Array.isArray(data.orders) ? data.orders.slice(0, 5) : [];
+        if (recentOrders.length > 0) {
+          recentOrdersBody.innerHTML = recentOrders.map(o => {
+            const customer = o.userId?.email || "Unknown Customer";
+            const products = o.items.map(item => item.productId?.name || "Unknown Product").join(", ");
+            const date = new Date(o.createdAt).toLocaleDateString();
+            const statusClass = o.status === "Pending" ? "yellow" : o.status === "Completed" ? "green" : "red";
+
+            return `
+              <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2">${o.orderId || "N/A"}</td>
+                <td class="px-4 py-2">${customer}</td>
+                <td class="px-4 py-2">${products}</td>
+                <td class="px-4 py-2">${date}</td>
+                <td class="px-4 py-2">
+                  <span class="px-2 py-1 rounded-full text-white text-xs bg-${statusClass}-500">
+                    ${o.status || "Unknown"}
+                  </span>
+                </td>
+              </tr>`;
+          }).join('');
+        } else {
+          recentOrdersBody.innerHTML = `<tr class="text-center text-gray-500"><td colspan="5" class="py-6">No recent orders available.</td></tr>`;
+        }
+
+        // Update All Orders Table
+        const allOrdersBody = document.getElementById("all-table");
+        const allOrders = Array.isArray(data.orders) ? data.orders : [];
+        if (allOrders.length > 0) {
+          allOrdersBody.innerHTML = allOrders.map(o => {
+            const customer = o.userId?.email || "Unknown Customer";
+            const products = o.items.map(item => item.productId?.name || "Unknown Product").join(", ");
+            const date = new Date(o.createdAt).toLocaleDateString();
+            const statusClass = o.status === "Pending" ? "yellow" : o.status === "Completed" ? "green" : "red";
+
+            return `
+              <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2">${o.orderId || "N/A"}</td>
+                <td class="px-4 py-2">${customer}</td>
+                <td class="px-4 py-2">${products}</td>
+                <td class="px-4 py-2">${date}</td>
+                <td class="px-4 py-2">
+                  <span class="px-2 py-1 rounded-full text-white text-xs bg-${statusClass}-500">
+                    ${o.status || "Unknown"}
+                  </span>
+                </td>
+              </tr>`;
+          }).join('');
+        } else {
+          allOrdersBody.innerHTML = `<tr class="text-center text-gray-500"><td colspan="5" class="py-6">No orders available.</td></tr>`;
+        }
+
+        // Update Chart Logic
+        const orders = Array.isArray(data.orders) ? data.orders : [];
+        const totalSales = orders.map(o => o.totalAmount || 0);
+        const totalRevenue = totalSales.reduce((sum, amount) => sum + amount, 0);
+
+        // Update Revenue Count
+        document.getElementById("revenue-count").textContent = `₦${totalRevenue.toLocaleString()}`;
+      })
+      .catch(err => {
+        console.error("Error fetching orders:", err);
+        Swal.fire("Error", "Failed to load dashboard data.", "error");
+      });
+  }
+
+  function deleteProduct(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/api/products/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        })
+          .then(res => res.json())
+          .then(data => {
+            Swal.fire('Deleted!', 'Product has been removed.', 'success');
+            fetchAndDisplayProducts();
+          })
+          .catch(err => {
+            console.error("❌ Error deleting product:", err);
+            Swal.fire('Error', 'Failed to delete product.', 'error');
+          });
+      }
+    });
+  }
+
+  async function uploadImages(images) {
+    const formData = new FormData();
+    images.forEach(file => formData.append('images', file));
+
+    try {
+      const response = await fetch('http://localhost:5000/upload/upload-images', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      console.log("Image Upload Response:", data);
+
+      if (!response.ok || !data.filePaths) {
+        console.error("Image Upload Error:", data);
+        throw new Error(data.message || "Image upload failed");
+      }
+
+      return data.filePaths;
+    } catch (error) {
+      console.error("❌ Upload Images Error:", error.message, error.stack);
+      throw error;
+    }
+  }
+
+  document.getElementById('productForm').addEventListener('submit', async function (e) {
+    e.preventDefault(); // Prevent default form submission
+    const loader = document.getElementById('loading-spinner');
+    loader.style.display = 'block'; // Show loading spinner
+  
+    try {
+      // Collect form data
+      const productName = document.getElementById('productName').value;
+      const productPrice = parseFloat(document.getElementById('productPrice').value);
+      const productDescription = document.getElementById('productDescription').value;
+      const productQuickDetails = document.getElementById('productQuickDetails').value;
+      const productColor = document.getElementById('productColor').value.split(',').map(c => c.trim());
+      const productSize = document.getElementById('productSize').value.split(',').map(s => s.trim());
+      const productShippingInfo = document.getElementById('productShippingInfo').value;
+      const productCategory = document.getElementById('productCategory').value;
+      const productImages = document.getElementById('productImages').files;
+  
+      // Validate images
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (productImages.length !== 5) {
+        loader.style.display = 'none';
+        return Swal.fire({
+          icon: 'warning',
+          title: 'Exactly 5 Images Required',
+          text: 'Please upload exactly 5 product images.'
+        });
+      }
+      for (let file of productImages) {
+        if (!allowedTypes.includes(file.type)) {
+          loader.style.display = 'none';
+          return Swal.fire({
+            icon: 'error',
+            title: 'Invalid Image Type',
+            text: `${file.name} is not a valid image.`
+          });
+        }
+        if (file.size > maxSize) {
+          loader.style.display = 'none';
+          return Swal.fire({
+            icon: 'error',
+            title: 'Image Too Large',
+            text: `${file.name} exceeds the 5MB size limit.`
+          });
+        }
+      }
+  
+      // Upload images
+      const uploadedImageUrls = await uploadImages(Array.from(productImages));
+  
+      // Collect tech specifications
+      const techSpecInputs = document.querySelectorAll('#techSpecContainer > div');
+      const techSpecification = Array.from(techSpecInputs).map(div => {
+        const inputs = div.querySelectorAll('input');
+        return {
+          feature: inputs[0].value,
+          detail: inputs[1].value,
+        };
+      });
+  
+      // Prepare product data
+      const newProduct = {
+        name: productName,
+        description: productDescription,
+        price: productPrice,
+        quickDetails: productQuickDetails,
+        color: productColor,
+        size: productSize,
+        shippingInfo: productShippingInfo,
+        category: productCategory,
+        images: uploadedImageUrls,
+        review: "",
+        techSpecification
+      };
+  
+      // Send product data to API
+      const productResponse = await fetch('http://localhost:5000/api/products/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+        body: JSON.stringify(newProduct)
+      });
+      const productData = await productResponse.json();
+  
+      if (!productResponse.ok || !productData.success) {
+        loader.style.display = 'none';
+        throw new Error(productData.message || 'Failed to save product');
+      }
+  
+      // Success
+      loader.style.display = 'none';
+      Swal.fire('Success', 'Product added successfully!', 'success');
+      $('#productModal').modal('hide'); // Hide modal
+      fetchAndDisplayProducts(); // Refresh product list
+    } catch (error) {
+      console.error('❌ ERROR:', error.message);
+      loader.style.display = 'none';
+      Swal.fire('Error', error.message || 'Something went wrong.', 'error');
+    }
+  });
+  
+
+  document.getElementById('addTechSpecBtn').addEventListener('click', function () {
+    const feature = document.getElementById('techSpecFeature').value;
+    const detail = document.getElementById('techSpecDetail').value;
+
+    if (feature && detail) {
+      const container = document.getElementById('techSpecContainer');
+      const newDiv = document.createElement('div');
+      newDiv.className = 'd-flex mb-2';
+      newDiv.innerHTML = `
+        <input type="text" class="form-control me-2" value="${feature}" readonly>
+        <input type="text" class="form-control" value="${detail}" readonly>
+        <button type="button" class="btn btn-danger ms-2 removeTechSpecBtn">-</button>`;
+      container.appendChild(newDiv);
+      newDiv.querySelector('.removeTechSpecBtn').addEventListener('click', function () {
+        container.removeChild(newDiv);
+      });
+      document.getElementById('techSpecFeature').value = '';
+      document.getElementById('techSpecDetail').value = '';
+    } else {
+      Swal.fire('Oops!', 'Fill in both feature and detail.', 'warning');
+    }
+  });
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> <!-- Corrected MIME type issue -->
+</body>
+</html>
