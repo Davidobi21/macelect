@@ -164,4 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Update cart count initially
   updateCartCount();
+
+  
 });

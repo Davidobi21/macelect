@@ -91,7 +91,7 @@ router.get("/", async  (req, res) => {
   
 
   // UPDATE product
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyToken, async (req, res) => {
     try {
       const product = await Product.findById(req.params.id);
       if (!product) {
@@ -126,7 +126,7 @@ router.put("/:id", async (req, res) => {
 
   // DELETE product
 // DELETE Product
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken, async (req, res) => {
     try {
       const productId = req.params.id;
       // Use findByIdAndDelete instead of remove

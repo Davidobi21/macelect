@@ -1,7 +1,20 @@
 async function placeOrder() {
   const token = localStorage.getItem("token");
   if (!token) {
-    alert("You must be logged in to place an order.");
+    Swal.fire({
+      icon: "warning",
+      title: "Unauthorized",
+      text: "You must be logged in to place an order.",
+      showCancelButton: true,
+      confirmButtonText: "Login",
+      cancelButtonText: "Sign Up",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/login.html"; // Redirect to login page
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        window.location.href = "/signup.html"; // Redirect to sign-up page
+      }
+    });
     return;
   }
 
@@ -30,18 +43,31 @@ async function placeOrder() {
     if (!response.ok) {
       const error = await response.json().catch(() => ({ message: "Invalid response from server" }));
       console.error("Error placing order:", error);
-      alert(error.message || "Failed to place order.");
+      Swal.fire({
+        icon: "error",
+        title: "Order Failed",
+        text: error.message || "Failed to place order. Please try again.",
+      });
       return;
     }
 
     const result = await response.json();
     console.log("Order placed successfully:", result);
-    alert("Order placed successfully!");
-    localStorage.removeItem("cart"); // Clear the cart after placing the order
-    window.location.href = "/order-success.html"; // Redirect to a success page
+    Swal.fire({
+      icon: "success",
+      title: "Order Placed",
+      text: "Your order has been placed successfully!",
+    }).then(() => {
+      localStorage.removeItem("cart"); // Clear the cart after placing the order
+      window.location.href = "/order-success.html"; // Redirect to a success page
+    });
   } catch (error) {
     console.error("Error placing order:", error);
-    alert("An error occurred while placing the order. Please try again.");
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "An error occurred while placing the order. Please try again.",
+    });
   }
 }
 
@@ -50,7 +76,11 @@ async function login() {
   const password = document.getElementById("password").value;
 
   if (!email || !password) {
-    alert("Please fill in both email and password.");
+    Swal.fire({
+      icon: "warning",
+      title: "Missing Fields",
+      text: "Please fill in both email and password.",
+    });
     return;
   }
 
@@ -66,7 +96,11 @@ async function login() {
     if (!response.ok) {
       const error = await response.json().catch(() => ({ message: "Invalid response from server" }));
       console.error("Login failed:", error);
-      alert(error.message || "Login failed. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.message || "Login failed. Please try again.",
+      });
       return;
     }
 
@@ -75,10 +109,19 @@ async function login() {
 
     localStorage.setItem("token", data.token); // Save JWT token
     localStorage.setItem("userId", data.user.id); // Save user ID
-    alert("Login successful!");
-    window.location.href = "/index.html"; // Redirect to homepage
+    Swal.fire({
+      icon: "success",
+      title: "Login Successful",
+      text: "You have logged in successfully!",
+    }).then(() => {
+      window.location.href = "/index.html"; // Redirect to homepage
+    });
   } catch (error) {
     console.error("Error during login:", error);
-    alert("An error occurred during login. Please try again.");
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "An error occurred during login. Please try again.",
+    });
   }
 }

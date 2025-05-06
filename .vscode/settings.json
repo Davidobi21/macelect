@@ -1,0 +1,6 @@
+{
+    "bitoAI.codeCompletion.enableAutoCompletion": false,
+    "files.autoSave": "onFocusChange",
+    "editor.wordWrap": "on",
+    "editor.autoClosingDelete": "always"
+}

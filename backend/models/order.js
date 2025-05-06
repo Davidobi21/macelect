@@ -53,6 +53,13 @@ const orderSchema = new mongoose.Schema({
   }]
 }, {
   timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+});
+
+// Add virtual field for orderId
+orderSchema.virtual('orderId').get(function () {
+  return this._id.toString();
 });
 
 module.exports = mongoose.model("Order", orderSchema);
