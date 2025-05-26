@@ -149,29 +149,27 @@ document.addEventListener("DOMContentLoaded", async function () {
       const category = product.category?.toLowerCase() || 'unknown';
 
       const cardHTML = `
-<div class="bg-white shadow-lg rounded-lg overflow-hidden group product-card" 
-     data-id="${product._id}" 
-     data-name="${product.name}" 
-     data-category="${category}" 
-     data-price="${product.price}">
+<div class="product-card bg-white shadow-lg rounded-lg overflow-hidden group flex flex-col"
+  data-id="${product._id}"
+  data-name="${product.name}"
+  data-category="${category}"
+  data-price="${product.price}">
   <div class="relative">
     <div class="brand-img-wrapper position-relative">
-      <img src="${mainImage}" class="main-img w-100 h-100 object-fit-cover" alt="${product.name}">
-      <img src="${hoverImage}" class="hover-img w-100 h-100 object-fit-cover position-absolute top-0 start-0" alt="Alt Image">
+      <img src="${mainImage}" class="main-img w-full h-48 object-cover sm:h-56 md:h-64" alt="${product.name}">
+      <img src="${hoverImage}" class="hover-img w-full h-48 object-cover sm:h-56 md:h-64 position-absolute top-0 left-0" alt="Alt Image" style="display:none;">
       <div class="position-absolute bottom-0 start-0 end-0 p-3 d-flex justify-content-between align-items-center bg-dark bg-opacity-50 text-white fw-bold fs-6">
         <span class="text-uppercase">${product.category}</span>
         <span>₦${product.price.toLocaleString()}</span>
       </div>
     </div>
-
-    <div class="p-4 bg-white">
-      <h5 class="fw-bold text-dark mb-2">${product.name}</h5>
+    <div class="p-4 bg-white flex-1 flex flex-col justify-between">
+      <h5 class="fw-bold text-dark mb-2 text-lg md:text-xl">${product.name}</h5>
       <p class="text-muted small mb-3">Ships in ${product.shippingInfo || 'N/A'}</p>
-
-      <div class="d-flex justify-content-between gap-2">
+      <div class="d-flex justify-content-between gap-2 mt-auto">
         <button 
           onclick="addToCart('${product._id}', '${product.name}', ${product.price}, '${mainImage}')" 
-          class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-1">
+          class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-1 add-to-cart-btn">
           <i data-lucide="shopping-cart" class="lucide w-4 h-4"></i><span>Add</span>
         </button>
         <button class="btn w-100 d-flex align-items-center justify-content-center gap-1 text-white" style="background: #000;">
@@ -179,7 +177,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         </button>
       </div>
     </div>
-
     ${product.sale ? `<div class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-end-4 fs-6 fw-semibold">SALE</div>` : ''}
   </div>
 </div>`;
@@ -207,13 +204,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     </div>
   </div>`;
   }
-  
-  
-  const button = document.createElement('button');
-  button.innerHTML = `<i data-lucide="shopping-cart" class="lucide w-4 h-4"></i><span>Add</span>`;
-  button.className = "btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-1";
-  button.onclick = () => addToCart(product._id, product.name, product.price, mainImage);
-  
-  document.querySelector('.addToCartButton').appendChild(button);
 });
 
