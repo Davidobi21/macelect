@@ -1,0 +1,297 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   My Account
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <script type="module" src="../js/profile.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+ </head>
+ <body class="bg-gradient-to-br from-[#e0e7ff] to-[#f0fdfa] min-h-screen">
+  <!-- Back Button -->
+  <button onclick="window.history.back()" class="fixed top-6 left-6 z-50 bg-white shadow-lg rounded-full px-4 py-2 text-[#2563EB] font-semibold hover:bg-[#2563EB] hover:text-white transition-all flex items-center gap-2">
+    <i class="fas fa-arrow-left"></i> Back
+  </button>
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-[#1E3A8A] to-[#0EA5E9] rounded-b-xl p-7 shadow-lg">
+    <div class="max-w-7xl mx-auto text-center">
+      <h1 class="text-white text-2xl font-bold tracking-wide">My Account</h1>
+      <div class="flex items-center justify-center space-x-1 mt-1 text-white text-xs font-normal opacity-90">
+        <i class="fas fa-home"></i>
+        <span id="breadcrumb-text">My Account</span>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-7xl mx-auto flex flex-col md:flex-row mt-10 px-4 md:px-0 gap-10 min-h-[600px]">
+    <!-- Sidebar -->
+    <aside class="bg-white/80 shadow-xl rounded-2xl w-full md:w-72 p-8 flex flex-col items-center md:items-start space-y-10 border border-[#e0e7ef]">
+      <div class="flex flex-col items-center space-y-4 w-full">
+        <div class="relative group">
+          <img id="profileImage" alt="Profile image" class="rounded-full w-28 h-28 object-cover border-4 border-[#2563EB] shadow-lg" src=""/>
+          <label for="profileImageInput" class="absolute bottom-2 right-2 bg-[#2563EB] text-white rounded-full p-2 cursor-pointer shadow-md group-hover:scale-110 transition-transform">
+            <i class="fas fa-camera"></i>
+          </label>
+          <input type="file" id="profileImageInput" accept="image/*" class="hidden"/>
+        </div>
+        <div class="text-center md:text-left w-full">
+          <p class="text-xs font-semibold text-[#64748B]">Hello</p>
+          <p id="profileName" class="text-lg font-bold text-[#1E293B] mt-1"></p>
+          <p id="profileEmail" class="text-xs text-[#475569] mt-1"></p>
+        </div>
+      </div>
+      <nav class="flex flex-col w-full space-y-4 text-[#475569] text-base font-medium">
+        <button aria-current="page" class="flex items-center gap-3 w-full rounded-xl bg-[#2563EB] px-4 py-2 text-white font-semibold focus:outline-none shadow-md" data-page="dashboard" type="button">
+          <i class="fas fa-columns text-base"></i> Dashboard
+        </button>
+        <button class="flex items-center gap-3 w-full rounded-xl hover:bg-[#D9E9F9] px-4 py-2 focus:outline-none" data-page="orders" type="button">
+          <i class="fas fa-history text-base"></i> Order History
+        </button>
+        <button class="flex items-center gap-3 w-full rounded-xl hover:bg-[#D9E9F9] px-4 py-2 focus:outline-none" data-page="account" type="button">
+          <i class="fas fa-user-circle text-base"></i> Account Details
+        </button>
+        <button class="flex items-center gap-3 w-full rounded-xl hover:bg-[#D9E9F9] px-4 py-2 focus:outline-none" data-page="address" type="button">
+          <i class="fas fa-map-marker-alt text-base"></i> Address
+        </button>
+        <button class="flex items-center gap-3 w-full rounded-xl hover:bg-[#D9E9F9] px-4 py-2 focus:outline-none" data-page="logout" type="button">
+          <i class="fas fa-sign-out-alt text-base"></i> Logout
+        </button>
+      </nav>
+    </aside>
+    <!-- Content -->
+    <section class="flex-1 space-y-10" id="contentArea">
+      <!-- Dashboard Page -->
+      <div id="page-dashboard">
+       <h2 class="text-xl font-semibold text-[#1E293B] mb-4">
+        Dashboard
+       </h2>
+       <p class="text-sm text-[#475569]">
+        Welcome to your dashboard, Jenny Wilson. Here you can quickly access your recent orders, account details, and more.
+       </p>
+       <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="border border-[#E2E8F0] rounded-lg p-4">
+         <h3 class="font-semibold text-[#1E293B] mb-2">
+          Recent Orders
+         </h3>
+         <ul class="text-xs text-[#475569] list-disc list-inside space-y-1">
+          <li>Apple Watch Series 8 - Delivered</li>
+          <li>Wireless Bluetooth Headphones - In Transit</li>
+          <li>Smartphone with Case - Cancelled</li>
+         </ul>
+        </div>
+        <div class="border border-[#E2E8F0] rounded-lg p-4">
+         <h3 class="font-semibold text-[#1E293B] mb-2">
+          Account Summary
+         </h3>
+         <p class="text-xs text-[#475569]">
+          Manage your personal information, addresses, and payment methods.
+         </p>
+        </div>
+       </div>
+      </div>
+      <!-- Orders Page -->
+      <div id="page-orders" class="hidden">
+       <h2 class="text-xl font-semibold text-[#1E293B] mb-4">
+        Recent Orders
+       </h2>
+       <div class="space-y-6">
+        <article class="border border-[#E2E8F0] rounded-lg p-5">
+         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
+          <div class="flex items-center space-x-3">
+           <img alt="Apple Watch Series 8 GPS 45mm Silver Aluminum Case Sport Band product image" class="w-12 h-12 object-contain rounded" height="48" src="https://storage.googleapis.com/a1aa/image/3164f452-1fc4-4d3b-9309-4105a5fac272.jpg" width="48"/>
+           <div>
+            <p class="text-sm font-semibold text-[#1E293B]">
+             Apple Watch Series 8 GPS 45mm Silver Aluminum Case Sport Band
+            </p>
+            <p class="text-xs text-[#64748B]">
+             Qty: 1
+            </p>
+           </div>
+          </div>
+          <div class="text-right text-xs text-[#94A3B8] mt-3 md:mt-0">
+           <p>
+            Order Date
+           </p>
+           <p class="font-semibold text-[#475569]">
+            12 Jul 2023
+           </p>
+          </div>
+          <div class="text-right text-xs text-[#94A3B8] mt-3 md:mt-0">
+           <p>
+            Status
+           </p>
+           <p class="font-semibold text-[#22C55E]">
+            Delivered
+           </p>
+          </div>
+         </div>
+         <p class="text-xs text-[#475569] mb-3 leading-snug">
+          Your order was delivered successfully. Thank you for shopping with us!
+         </p>
+        </article>
+        <article class="border border-[#E2E8F0] rounded-lg p-5">
+         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
+          <div class="flex items-center space-x-3">
+           <img alt="Wireless Bluetooth Headphones product image" class="w-12 h-12 object-contain rounded" height="48" src="https://storage.googleapis.com/a1aa/image/c9a95d2a-9b0f-49c4-06fd-10ea6ff77b2a.jpg" width="48"/>
+           <div>
+            <p class="text-sm font-semibold text-[#1E293B]">
+             Wireless Bluetooth Headphones
+            </p>
+            <p class="text-xs text-[#64748B]">
+             Qty: 2
+            </p>
+           </div>
+          </div>
+          <div class="text-right text-xs text-[#94A3B8] mt-3 md:mt-0">
+           <p>
+            Order Date
+           </p>
+           <p class="font-semibold text-[#475569]">
+            05 Jul 2023
+           </p>
+          </div>
+          <div class="text-right text-xs text-[#94A3B8] mt-3 md:mt-0">
+           <p>
+            Status
+           </p>
+           <p class="font-semibold text-[#F97316]">
+            In Transit
+           </p>
+          </div>
+         </div>
+         <p class="text-xs text-[#475569] mb-3 leading-snug">
+          Your order is on the way. Expected delivery in 3 days.
+         </p>
+        </article>
+        <article class="border border-[#E2E8F0] rounded-lg p-5">
+         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
+          <div class="flex items-center space-x-3">
+           <img alt="Smartphone with case product image" class="w-12 h-12 object-contain rounded" height="48" src="https://storage.googleapis.com/a1aa/image/7c426888-95be-4b1c-347c-74909b562b40.jpg" width="48"/>
+           <div>
+            <p class="text-sm font-semibold text-[#1E293B]">
+             Smartphone with Case
+            </p>
+            <p class="text-xs text-[#64748B]">
+             Qty: 1
+            </p>
+           </div>
+          </div>
+          <div class="text-right text-xs text-[#94A3B8] mt-3 md:mt-0">
+           <p>
+            Order Date
+           </p>
+           <p class="font-semibold text-[#475569]">
+            28 Jun 2023
+           </p>
+          </div>
+          <div class="text-right text-xs text-[#94A3B8] mt-3 md:mt-0">
+           <p>
+            Status
+           </p>
+           <p class="font-semibold text-[#EF4444]">
+            Cancelled
+           </p>
+          </div>
+         </div>
+         <p class="text-xs text-[#475569] mb-3 leading-snug">
+          This order was cancelled. If you have questions, contact support.
+         </p>
+        </article>
+       </div>
+      </div>
+      <!-- Account Details Page -->
+      <div id="page-account" class="hidden">
+        <h2 class="text-2xl font-bold text-[#1E293B] mb-6">Account Details</h2>
+        <form class="space-y-6 max-w-lg bg-white/90 shadow-lg rounded-xl p-8 border border-[#e0e7ef]" id="accountForm">
+          <div class="flex flex-col items-center mb-4">
+            <img id="accountImagePreview" class="rounded-full w-24 h-24 object-cover border-2 border-[#2563EB] shadow mb-2" src="" alt="Profile Preview"/>
+            <label for="accountImageInput" class="bg-[#2563EB] text-white rounded-full px-4 py-2 cursor-pointer shadow hover:bg-[#1E3A8A] transition-all">
+              <i class="fas fa-upload"></i> Change Profile Image
+            </label>
+            <input type="file" id="accountImageInput" accept="image/*" class="hidden"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#475569] mb-1" for="name">Full Name</label>
+            <input class="w-full border border-[#CBD5E1] rounded-md px-3 py-2 text-sm text-[#1E293B]" id="name" name="name" type="text"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#475569] mb-1" for="email">Email Address</label>
+            <input class="w-full border border-[#CBD5E1] rounded-md px-3 py-2 text-sm text-[#1E293B]" id="email" name="email" type="email"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#475569] mb-1" for="phone">Phone Number</label>
+            <input class="w-full border border-[#CBD5E1] rounded-md px-3 py-2 text-sm text-[#1E293B]" id="phone" name="phone" type="tel"/>
+          </div>
+          <button class="bg-[#2563EB] text-white px-6 py-2 rounded-md text-base font-semibold hover:bg-[#1D4ED8] w-full mt-4" type="submit">
+            Save Changes
+          </button>
+        </form>
+      </div>
+      <!-- Address Page -->
+      <div id="page-address" class="hidden">
+       <h2 class="text-xl font-semibold text-[#1E293B] mb-4">
+        Address
+       </h2>
+       <form class="space-y-4 max-w-md" id="addressForm">
+        <div>
+         <label class="block text-xs font-semibold text-[#475569] mb-1" for="street">
+          Street Address
+         </label>
+         <input class="w-full border border-[#CBD5E1] rounded-md px-3 py-2 text-sm text-[#1E293B]" id="street" name="street" type="text" value="123 Main St"/>
+        </div>
+        <div>
+         <label class="block text-xs font-semibold text-[#475569] mb-1" for="city">
+          City
+         </label>
+         <input class="w-full border border-[#CBD5E1] rounded-md px-3 py-2 text-sm text-[#1E293B]" id="city" name="city" type="text" value="New York"/>
+        </div>
+        <div>
+         <label class="block text-xs font-semibold text-[#475569] mb-1" for="state">
+          State/Province
+         </label>
+         <input class="w-full border border-[#CBD5E1] rounded-md px-3 py-2 text-sm text-[#1E293B]" id="state" name="state" type="text" value="NY"/>
+        </div>
+        <div>
+         <label class="block text-xs font-semibold text-[#475569] mb-1" for="zip">
+          ZIP/Postal Code
+         </label>
+         <input class="w-full border border-[#CBD5E1] rounded-md px-3 py-2 text-sm text-[#1E293B]" id="zip" name="zip" type="text" value="10001"/>
+        </div>
+        <div>
+         <label class="block text-xs font-semibold text-[#475569] mb-1" for="country">
+          Country
+         </label>
+         <input class="w-full border border-[#CBD5E1] rounded-md px-3 py-2 text-sm text-[#1E293B]" id="country" name="country" type="text" value="USA"/>
+        </div>
+        <button class="bg-[#2563EB] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-[#1D4ED8]" type="submit">
+         Save Address
+        </button>
+       </form>
+      </div>
+      <!-- Logout Page -->
+      <div id="page-logout" class="hidden flex flex-col items-center justify-center h-full text-center space-y-4">
+       <i class="fas fa-sign-out-alt text-6xl text-[#EF4444]">
+       </i>
+       <h2 class="text-2xl font-semibold text-[#1E293B]">
+        You have been logged out
+       </h2>
+       <p class="text-sm text-[#475569] max-w-sm">
+        Thank you for visiting. You have successfully logged out of your account.
+       </p>
+       <a class="mt-4 inline-block bg-[#2563EB] text-white px-6 py-2 rounded-md text-sm font-semibold hover:bg-[#1D4ED8]" href="#">
+        Log In Again
+       </a>
+      </div>
+     </section>
+    </main>
+ </body>
+</html>
